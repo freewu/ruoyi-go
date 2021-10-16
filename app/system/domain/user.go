@@ -46,7 +46,6 @@ type UserSearchRequest struct {
 	request.SortInfo
 
 	Keyword	string 	`json:"keyword"` // 关键字
-
 }
 
 type UserAddRequest struct {
