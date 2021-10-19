@@ -2,7 +2,7 @@ package controller
 
 import "github.com/gin-gonic/gin"
 
-func InitRouter(r *gin.Engine)  {
+func InitRouter(r *gin.Engine) {
 	group := r.Group("")
 	{
 		user := User{}
