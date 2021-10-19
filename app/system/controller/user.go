@@ -2,7 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"ruoyi-go/app/system/domain"
 	"ruoyi-go/app/system/service"
+	resp "ruoyi-go/common/model/response"
+	"ruoyi-go/common/response"
 )
 
 type User struct {}
@@ -14,22 +17,22 @@ type User struct {}
 // @Success 200 {object} response.Response{data=response.PageResult{list=[]model.User}} "{"code": 0, "data": { "list": [] } }"
 // @Router /system/user/list [get]
 // @Security
-func (c *User) List(r *gin.Context) {
-	var searchParams *model.AreaSearchParam
-
-	if err := r.Parse(&searchParams); err != nil {
-		response.FailJson(true, r, err.Error())
+func (u User) List(c *gin.Context) {
+	var searchParams domain.UserSearchRequest
+	if err := c.ShouldBindQuery(&searchParams); err != nil {
+		response.Fail(-1, err.Error(),c)
 	}
-	err, list, total := service.User.GetList(searchParams)
+	user := service.User{}
+	err, list, total := user.GetList(&searchParams)
 	if err != nil {
-		response.FailJson(true, r, err.Error())
+		response.Fail(-1, err.Error(),c)
 	}
-	response.SusJson(true, r, "成功", model.PageResult{
+	response.OK(resp.PageResult{
 		List: list,
 		Total: total,
 		Page: searchParams.Page,
 		PageSize: searchParams.PageSize,
-	})
+	},c)
 }
 
 //// @Summary 获取指定ID的用户详情

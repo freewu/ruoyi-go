@@ -1,5 +1,10 @@
 package response
 
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
 type Response struct {
 	Code	int 		`json:"code" example:"0"` // 代码
 	Data	interface{} `json:"data"`// 数据集
@@ -8,29 +13,29 @@ type Response struct {
 
 var response *Response
 
-func (r *Response) Error(code int,msg string) *Response {
+func (r *Response) Error(code int,msg string,c *gin.Context) {
 	response = &Response{}
 	response.Code = code
 	response.Msg = msg
-	return response
+	c.JSON(http.StatusInternalServerError,response)
 }
 
-func (r *Response) Success(data interface{}) *Response {
+func (r *Response) Success(data interface{},c *gin.Context) {
 	response = &Response{}
 	response.Code = 0
 	response.Msg = "Success"
 	response.Data = data
-	return response
+	c.JSON(http.StatusOK,response)
 }
 
-func Fail(code int,msg string)  *Response {
-	return response.Error(code,msg)
+func Fail(code int,msg string,r *gin.Context) {
+	response.Error(code,msg,r)
 }
 
-func OK(data interface{})  *Response {
-	return response.Success(data)
+func OK(data interface{},r *gin.Context) {
+	response.Success(data,r)
 }
 
-func Success(msg string)  *Response {
-	return response.Error(0,msg)
+func Success(msg string,r *gin.Context) {
+	response.Error(0,msg,r)
 }
