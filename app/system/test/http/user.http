@@ -1,0 +1,29 @@
+### add
+POST http://127.0.0.1:8080/system/user/add
+content-type: application/json
+
+{
+  "username": "bluefrog",
+  "mobile": "13212341234",
+  "nickname": "bluefrog",
+  "birthday": "2019-01-01",
+  "status": 1,
+  "email": "bluefrog.wu@gmail.com",
+  "gender": 0,
+  "avatar": "",
+  "departmentID": 0,
+  "remark": "",
+  "isAdmin": true
+}
+
+### list
+GET http://127.0.0.1:8080/system/user/list?pageSize=1
+
+### update
+
+### delete
+
+### detail
+GET http://127.0.0.1:8080/system/user/detail?id=1
+
+###
