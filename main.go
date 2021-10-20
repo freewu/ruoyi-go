@@ -12,6 +12,11 @@ import (
 // @host localhost
 // @BasePath /
 func main() {
+	if config.Bool("service.debug") {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	r := gin.Default()
 	_ = bootstrap.Bootstrap(r)
 	_ = r.Run(config.String("service.port")) // listen and serve on 0.0.0.0:8080
