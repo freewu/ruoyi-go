@@ -1,0 +1,542 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "ruoyi-go 在线API文档",
+        "title": "ruoyi-go API文档",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost",
+    "basePath": "/",
+    "paths": {
+        "/system/user/add": {
+            "post": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "添加用户",
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "添加用户",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.UserAddRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"data\": [...]}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/system/user/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "删除用户",
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "删除用户",
+                "parameters": [
+                    {
+                        "description": "{ids: [1,2']}",
+                        "name": "ids",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.IdsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/system/user/detail": {
+            "get": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "获取指定ID的用户详情",
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "获取指定ID的用户详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "主键ID",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.User"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/system/user/edit": {
+            "put": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "修改用户",
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "修改用户",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.UserEditRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/system/user/list": {
+            "get": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "用户列表",
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "获取用户列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "开始时间 格式:yyyy-mm-dd hh:ii:ss",
+                        "name": "beginTime",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "搜索时间字段 lastLoginTime 最后登录时间 | registerTime 注册时间",
+                        "name": "dateColumn",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "部门ID",
+                        "name": "departmentID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "登录邮箱",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "结束时间 格式:yyyy-mm-dd hh:ii:ss",
+                        "name": "endTime",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "性别;0:保密,1:男,2:女",
+                        "name": "gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "是否后台管理员 1 是  0 否",
+                        "name": "isAdmin",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "最后登录IP",
+                        "name": "lastLoginIP",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "手机号",
+                        "name": "mobile",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户昵称",
+                        "name": "nickname",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序",
+                        "name": "orderBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页大小",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "备注",
+                        "name": "remark",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "用户状态;0:禁用,1:正常,2:未验证",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户名",
+                        "name": "username",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"data\": { \"list\": [] } }",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/domain.User"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.User": {
+            "type": "object",
+            "required": [
+                "mobile",
+                "nickname",
+                "username"
+            ],
+            "properties": {
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "birthday": {
+                    "description": "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "departmentID": {
+                    "description": "部门ID",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "登录邮箱",
+                    "type": "string"
+                },
+                "gender": {
+                    "description": "性别;0:保密,1:男,2:女",
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isAdmin": {
+                    "description": "是否后台管理员 1 是  0 否",
+                    "type": "boolean"
+                },
+                "lastLoginIP": {
+                    "description": "最后登录IP",
+                    "type": "string"
+                },
+                "lastLoginTime": {
+                    "description": "最后登录时间",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "中国手机不带国家代码，国际手机号格式为：国家代码-手机号",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "用户昵称",
+                    "type": "string"
+                },
+                "registerTime": {
+                    "description": "注册时间",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "备注",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "用户状态;0:禁用,1:正常,2:未验证",
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "domain.UserAddRequest": {
+            "type": "object",
+            "required": [
+                "mobile",
+                "nickname",
+                "username"
+            ],
+            "properties": {
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "birthday": {
+                    "description": "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日",
+                    "type": "string"
+                },
+                "departmentID": {
+                    "description": "部门ID",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "登录邮箱",
+                    "type": "string"
+                },
+                "gender": {
+                    "description": "性别;0:保密,1:男,2:女",
+                    "type": "integer"
+                },
+                "isAdmin": {
+                    "description": "是否后台管理员 1 是  0 否",
+                    "type": "boolean"
+                },
+                "mobile": {
+                    "description": "中国手机不带国家代码，国际手机号格式为：国家代码-手机号",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "用户昵称",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "备注",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "用户状态;0:禁用,1:正常,2:未验证",
+                    "type": "integer"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "domain.UserEditRequest": {
+            "type": "object",
+            "required": [
+                "mobile",
+                "nickname",
+                "username"
+            ],
+            "properties": {
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "birthday": {
+                    "description": "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日",
+                    "type": "string"
+                },
+                "departmentID": {
+                    "description": "部门ID",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "登录邮箱",
+                    "type": "string"
+                },
+                "gender": {
+                    "description": "性别;0:保密,1:男,2:女",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "isAdmin": {
+                    "description": "是否后台管理员 1 是  0 否",
+                    "type": "boolean"
+                },
+                "mobile": {
+                    "description": "中国手机不带国家代码，国际手机号格式为：国家代码-手机号",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "用户昵称",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "备注",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "用户状态;0:禁用,1:正常,2:未验证",
+                    "type": "integer"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "request.IdsReq": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "response.PageResult": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "object"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "代码",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "description": "数据集",
+                    "type": "object"
+                },
+                "msg": {
+                    "description": "消息",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

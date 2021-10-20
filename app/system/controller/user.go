@@ -21,8 +21,8 @@ var (
 // @Summary 获取用户列表
 // @Description 用户列表
 // @Tags 用户管理
-// @Param data query model.UserSearchParam true "data"
-// @Success 0 {object} response.Response{data=response.PageResult{list=[]model.User}} "{"code": 0, "data": { "list": [] } }"
+// @Param data query domain.UserSearchRequest true "data"
+// @Success 0 {object} response.Response{data=response.PageResult{list=[]domain.User}} "{"code": 0, "data": { "list": [] } }"
 // @Router /system/user/list [get]
 // @Security
 func (u *User) List(c *gin.Context) {
@@ -100,7 +100,7 @@ func (u *User) Edit(c *gin.Context) {
 // @Summary 删除用户
 // @Description 删除用户
 // @Tags 用户管理
-// @Param ids body model.IdsReq true "{ids: [1,2']}"
+// @Param ids body request.IdsReq true "{ids: [1,2']}"
 // @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
 // @Router /system/user/delete [delete]
 // @Security

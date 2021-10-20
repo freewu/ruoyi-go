@@ -24,4 +24,10 @@ gorm.io/gorm db操作
 github.com/sirupsen/logrus 日志
 github.com/spf13/viper 配置文件
 github.com/go-playground/validator/v10 结构体参数验证
+github.com/swaggo/swag 接口文档
+```
+
+# 接口文档生成
+```bash
+swag init -o ./app/swagger
 ```

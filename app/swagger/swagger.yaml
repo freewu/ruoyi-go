@@ -1,0 +1,356 @@
+basePath: /
+definitions:
+  domain.User:
+    properties:
+      avatar:
+        description: 用户头像
+        type: string
+      birthday:
+        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日"
+        type: string
+      createdAt:
+        type: string
+      departmentID:
+        description: 部门ID
+        type: integer
+      email:
+        description: 登录邮箱
+        type: string
+      gender:
+        description: 性别;0:保密,1:男,2:女
+        type: integer
+      id:
+        type: integer
+      isAdmin:
+        description: 是否后台管理员 1 是  0 否
+        type: boolean
+      lastLoginIP:
+        description: 最后登录IP
+        type: string
+      lastLoginTime:
+        description: 最后登录时间
+        type: string
+      mobile:
+        description: 中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+        type: string
+      nickname:
+        description: 用户昵称
+        type: string
+      registerTime:
+        description: 注册时间
+        type: string
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 用户状态;0:禁用,1:正常,2:未验证
+        type: integer
+      updatedAt:
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - mobile
+    - nickname
+    - username
+    type: object
+  domain.UserAddRequest:
+    properties:
+      avatar:
+        description: 用户头像
+        type: string
+      birthday:
+        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日"
+        type: string
+      departmentID:
+        description: 部门ID
+        type: integer
+      email:
+        description: 登录邮箱
+        type: string
+      gender:
+        description: 性别;0:保密,1:男,2:女
+        type: integer
+      isAdmin:
+        description: 是否后台管理员 1 是  0 否
+        type: boolean
+      mobile:
+        description: 中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+        type: string
+      nickname:
+        description: 用户昵称
+        type: string
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 用户状态;0:禁用,1:正常,2:未验证
+        type: integer
+      username:
+        description: 用户名
+        type: string
+    required:
+    - mobile
+    - nickname
+    - username
+    type: object
+  domain.UserEditRequest:
+    properties:
+      avatar:
+        description: 用户头像
+        type: string
+      birthday:
+        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日"
+        type: string
+      departmentID:
+        description: 部门ID
+        type: integer
+      email:
+        description: 登录邮箱
+        type: string
+      gender:
+        description: 性别;0:保密,1:男,2:女
+        type: integer
+      id:
+        description: 主键ID
+        type: integer
+      isAdmin:
+        description: 是否后台管理员 1 是  0 否
+        type: boolean
+      mobile:
+        description: 中国手机不带国家代码，国际手机号格式为：国家代码-手机号
+        type: string
+      nickname:
+        description: 用户昵称
+        type: string
+      remark:
+        description: 备注
+        type: string
+      status:
+        description: 用户状态;0:禁用,1:正常,2:未验证
+        type: integer
+      username:
+        description: 用户名
+        type: string
+    required:
+    - mobile
+    - nickname
+    - username
+    type: object
+  request.IdsReq:
+    properties:
+      ids:
+        items:
+          type: string
+        type: array
+    type: object
+  response.PageResult:
+    properties:
+      list:
+        type: object
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+    type: object
+  response.Response:
+    properties:
+      code:
+        description: 代码
+        example: 0
+        type: integer
+      data:
+        description: 数据集
+        type: object
+      msg:
+        description: 消息
+        type: string
+    type: object
+host: localhost
+info:
+  contact: {}
+  description: ruoyi-go 在线API文档
+  title: ruoyi-go API文档
+  version: "1.0"
+paths:
+  /system/user/add:
+    post:
+      description: 添加用户
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UserAddRequest'
+      responses:
+        "0":
+          description: '{"code": 0, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - "": []
+      summary: 添加用户
+      tags:
+      - 用户管理
+  /system/user/delete:
+    delete:
+      description: 删除用户
+      parameters:
+      - description: '{ids: [1,2'']}'
+        in: body
+        name: ids
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsReq'
+      responses:
+        "0":
+          description: '{"code": 200, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - "": []
+      summary: 删除用户
+      tags:
+      - 用户管理
+  /system/user/detail:
+    get:
+      description: 获取指定ID的用户详情
+      parameters:
+      - description: 主键ID
+        in: query
+        name: id
+        type: integer
+      responses:
+        "0":
+          description: '{"code": 200, "data": [...]}'
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.User'
+              type: object
+      security:
+      - "": []
+      summary: 获取指定ID的用户详情
+      tags:
+      - 用户管理
+  /system/user/edit:
+    put:
+      description: 修改用户
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UserEditRequest'
+      responses:
+        "0":
+          description: '{"code": 200, "data": [...]}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - "": []
+      summary: 修改用户
+      tags:
+      - 用户管理
+  /system/user/list:
+    get:
+      description: 用户列表
+      parameters:
+      - description: 开始时间 格式:yyyy-mm-dd hh:ii:ss
+        in: query
+        name: beginTime
+        type: string
+      - description: 搜索时间字段 lastLoginTime 最后登录时间 | registerTime 注册时间
+        in: query
+        name: dateColumn
+        type: string
+      - description: 部门ID
+        in: query
+        name: departmentID
+        type: integer
+      - description: 登录邮箱
+        in: query
+        name: email
+        type: string
+      - description: 结束时间 格式:yyyy-mm-dd hh:ii:ss
+        in: query
+        name: endTime
+        type: string
+      - description: 性别;0:保密,1:男,2:女
+        in: query
+        name: gender
+        type: integer
+      - description: 是否后台管理员 1 是  0 否
+        in: query
+        name: isAdmin
+        type: boolean
+      - description: 关键字
+        in: query
+        name: keyword
+        type: string
+      - description: 最后登录IP
+        in: query
+        name: lastLoginIP
+        type: string
+      - description: 手机号
+        in: query
+        name: mobile
+        type: string
+      - description: 用户昵称
+        in: query
+        name: nickname
+        type: string
+      - description: 排序
+        in: query
+        name: orderBy
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页大小
+        in: query
+        name: pageSize
+        type: integer
+      - description: 备注
+        in: query
+        name: remark
+        type: string
+      - description: 用户状态;0:禁用,1:正常,2:未验证
+        in: query
+        name: status
+        type: integer
+      - description: 用户名
+        in: query
+        name: username
+        type: string
+      responses:
+        "0":
+          description: '{"code": 0, "data": { "list": [] } }'
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/response.PageResult'
+                  - properties:
+                      list:
+                        items:
+                          $ref: '#/definitions/domain.User'
+                        type: array
+                    type: object
+              type: object
+      security:
+      - "": []
+      summary: 获取用户列表
+      tags:
+      - 用户管理
+swagger: "2.0"
