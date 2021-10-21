@@ -60,12 +60,13 @@ func (u *User) Add(c *gin.Context) {
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
 		response.Fail(-1, err.Error(),c)
+		return
 	}
-	log.Printf("data: %#v",data)
 	// 验证参数
-	//if err := validate.Struct(&data); err != nil {
-	//	response.Fail(-1, err.Error(),c)
-	//}
+	if err := validate.Struct(data); err != nil {
+		response.Fail(-1, err.Error(),c)
+		return
+	}
 	if err := user.Create(data); err != nil {
 		response.Fail(-1, "添加失败: " + err.Error(),c)
 	} else {
@@ -85,11 +86,13 @@ func (u *User) Edit(c *gin.Context) {
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
 		response.Fail(-1, err.Error(),c)
+		return
 	}
 	// 参数验证
-	//if err := validate.Struct(&data); err != nil {
-	//	response.Fail(-1, err.Error(),c)
-	//}
+	if err := validate.Struct(data); err != nil {
+		response.Fail(-1, err.Error(),c)
+		return
+	}
 	if err := user.Update(data); err != nil {
 		response.Fail(-1, "修改失败: " + err.Error(),c)
 	} else {
@@ -100,18 +103,25 @@ func (u *User) Edit(c *gin.Context) {
 // @Summary 删除用户
 // @Description 删除用户
 // @Tags 用户管理
-// @Param ids body request.IdsReq true "{ids: [1,2']}"
+// @Param ids body request.IdsRequest true "{ids: [1,2']}"
 // @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
 // @Router /system/user/delete [delete]
 // @Security
 func (u *User) Delete(c *gin.Context) {
-	ids := c.PostFormArray("ids")
-	if len(ids) == 0 {
-		response.Fail(-1, "参数不能为空",c)
+	var data *request.IdsRequest
+	// 获取参数
+	if err := c.Bind(&data); err != nil {
+		response.Fail(-1, err.Error(),c)
+		return
 	}
-	err := user.Delete(ids)
+	if len(data.Ids) == 0 {
+		response.Fail(-1, "参数不能为空",c)
+		return
+	}
+	err := user.Delete(data.Ids)
 	if err != nil {
 		response.Fail(-1, "删除失败: " + err.Error(),c)
+		return
 	}
 	response.Success("删除成功",c)
 }
@@ -128,10 +138,12 @@ func (u *User) Detail(c *gin.Context) {
 
 	if err := c.Bind(&param); err != nil {
 		response.Fail(-1, err.Error(),c)
+		return
 	}
 	user, err := user.Detail(param.ID)
 	if err != nil {
 		response.Fail(-1, err.Error(),c)
+		return
 	}
 	response.OK(user,c)
 }

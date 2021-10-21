@@ -118,9 +118,9 @@ func (s User) UpdateByMap(id uint, updateMap map[string]interface{}) (err error)
 //@author: [bluefrog](https://github.com/freewu)
 //@function: Delete
 //@description: 删除用户
-//@param: ids []string
+//@param: ids []uint
 //@return: err error
-func (s User) Delete(ids []string) (err error) {
+func (s User) Delete(ids []uint) (err error) {
 	// 删除区域
 	if err = domain.DB.Where("id in (?) ",ids).Unscoped().Delete(&domain.User{}).Error; err != nil {
 		return err

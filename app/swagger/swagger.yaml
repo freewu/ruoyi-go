@@ -134,16 +134,19 @@ definitions:
         description: 用户名
         type: string
     required:
+    - id
     - mobile
     - nickname
     - username
     type: object
-  request.IdsReq:
+  request.IdsRequest:
     properties:
       ids:
         items:
-          type: string
+          type: integer
         type: array
+    required:
+    - ids
     type: object
   response.PageResult:
     properties:
@@ -205,7 +208,7 @@ paths:
         name: ids
         required: true
         schema:
-          $ref: '#/definitions/request.IdsReq'
+          $ref: '#/definitions/request.IdsRequest'
       responses:
         "0":
           description: '{"code": 200, "data": [...]}'
@@ -223,6 +226,7 @@ paths:
       - description: 主键ID
         in: query
         name: id
+        required: true
         type: integer
       responses:
         "0":

@@ -20,10 +20,54 @@ content-type: application/json
 GET http://127.0.0.1:8080/system/user/list?pageSize=1
 
 ### update
+PUT http://127.0.0.1:8080/system/user/edit
+content-type: application/json
+
+{
+  "id": 1,
+  "username": "bluefrog1",
+  "mobile": "13212341235",
+  "nickname": "bluefrog1",
+  "birthday": "2019-01-02",
+  "status": 0,
+  "email": "bluefrog.wu1@gmail.com",
+  "gender": 0,
+  "avatar": "",
+  "departmentID": 0,
+  "remark": "remark",
+  "isAdmin": false
+}
 
 ### delete
+DELETE http://127.0.0.1:8080/system/user/delete
+content-type: application/json
+
+{
+  "ids": [2,3]
+}
 
 ### detail
 GET http://127.0.0.1:8080/system/user/detail?id=1
+
+### validate add empty
+POST http://127.0.0.1:8080/system/user/add
+content-type: application/json
+
+{
+}
+
+### validate update empty
+PUT http://127.0.0.1:8080/system/user/edit
+content-type: application/json
+
+{
+}
+
+### valiate delete empty
+DELETE http://127.0.0.1:8080/system/user/delete
+content-type: application/json
+
+{
+}
 
 ###

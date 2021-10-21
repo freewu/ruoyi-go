@@ -76,7 +76,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/request.IdsRequest"
                         }
                     }
                 ],
@@ -107,7 +107,8 @@ var doc = `{
                         "type": "integer",
                         "description": "主键ID",
                         "name": "id",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -452,6 +453,7 @@ var doc = `{
         "domain.UserEditRequest": {
             "type": "object",
             "required": [
+                "id",
                 "mobile",
                 "nickname",
                 "username"
@@ -507,13 +509,16 @@ var doc = `{
                 }
             }
         },
-        "request.IdsReq": {
+        "request.IdsRequest": {
             "type": "object",
+            "required": [
+                "ids"
+            ],
             "properties": {
                 "ids": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "type": "integer"
                     }
                 }
             }

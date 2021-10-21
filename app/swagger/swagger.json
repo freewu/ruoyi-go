@@ -61,7 +61,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/request.IdsReq"
+                            "$ref": "#/definitions/request.IdsRequest"
                         }
                     }
                 ],
@@ -92,7 +92,8 @@
                         "type": "integer",
                         "description": "主键ID",
                         "name": "id",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -437,6 +438,7 @@
         "domain.UserEditRequest": {
             "type": "object",
             "required": [
+                "id",
                 "mobile",
                 "nickname",
                 "username"
@@ -492,13 +494,16 @@
                 }
             }
         },
-        "request.IdsReq": {
+        "request.IdsRequest": {
             "type": "object",
+            "required": [
+                "ids"
+            ],
             "properties": {
                 "ids": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "type": "integer"
                     }
                 }
             }
