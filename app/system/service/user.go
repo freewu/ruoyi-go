@@ -3,6 +3,7 @@ package service
 import (
 	"gorm.io/gorm"
 	"ruoyi-go/app/system/domain"
+	"strings"
 	"time"
 )
 
@@ -47,6 +48,63 @@ func (s User) GetList(searchParams *domain.UserSearchRequest) (err error, list [
 //@return: *gorm.DB
 func (s User) parseFilter(db *gorm.DB, searchParams *domain.UserSearchRequest) *gorm.DB {
 	// 条件过滤
+	if searchParams.Username != "" { // 用户名
+		db = db.Where("username = ?", searchParams.Username)
+	}
+	if searchParams.Mobile != "" { // 手机号
+		db = db.Where("mobile = ?", searchParams.Mobile)
+	}
+	if searchParams.Status !=  nil { // 用户状态;0:禁用,1:正常,2:未验证
+		db = db.Where("status = ?", searchParams.Status)
+	}
+	if searchParams.IsAdmin !=  nil { // 是否后台管理员 1 是  0 否
+		db = db.Where("is_admin = ?", searchParams.IsAdmin)
+	}
+	if searchParams.DepartmentID !=  nil { // 部门ID
+		db = db.Where("department_id = ?", searchParams.DepartmentID)
+	}
+	if searchParams.Gender !=  nil { // 性别;0:保密,1:男,2:女
+		db = db.Where("gender = ?", searchParams.Gender)
+	}
+	if searchParams.Nickname != "" { // 用户昵称
+		db = db.Where("nickname = ?", searchParams.Nickname)
+	}
+	if searchParams.LastLoginIP != "" { // 最后登录IP
+		db = db.Where("last_login_ip = ?", searchParams.LastLoginIP)
+	}
+	if searchParams.DateColumn == "lastLoginTime" { // 最后登录时间
+		if searchParams.BeginTime != "" { // 开始时间
+			db = db.Where("last_login_time >= ?", searchParams.BeginTime)
+		}
+		if searchParams.EndTime != "" { // 结束时间
+			db = db.Where("last_login_time <= ?", searchParams.EndTime)
+		}
+	}
+	if searchParams.DateColumn == "registerTime" { // 注册时间
+		if searchParams.BeginTime != "" { // 开始时间
+			db = db.Where("register_time >= ?", searchParams.BeginTime)
+		}
+		if searchParams.EndTime != "" { // 结束时间
+			db = db.Where("register_time <= ?", searchParams.EndTime)
+		}
+	}
+	if searchParams.Email != "" { // 登录邮箱
+		db = db.Where("email LIKE ?", "%" + searchParams.Email + "%")
+	}
+	if searchParams.Remark != "" { // 备注
+		db = db.Where("remark LIKE ?", "%" + searchParams.Remark + "%")
+	}
+	if searchParams.Keyword != "" { // 关键词
+		k1 := strings.Trim(searchParams.Keyword," \t\r\n")
+		k := "%" + k1 + "%"
+		db = db.Where("(" +
+			"username LIKE ? OR " +
+			"mobile LIKE ? OR " +
+			"email LIKE ? OR " +
+			"nickname LIKE ? OR " +
+			"last_login_ip LIKE ? OR " +
+			"remark LIKE ? )",k,k,k,k,k,k)
+	}
 	return db
 }
 

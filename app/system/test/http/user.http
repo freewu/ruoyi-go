@@ -70,4 +70,17 @@ content-type: application/json
 {
 }
 
+### list search with keyword
+GET http://127.0.0.1:8080/system/user/list?pageSize=1&keyword=bluefrog
+
+### list search with username
+GET http://127.0.0.1:8080/system/user/list?pageSize=1&username=bluefrog1
+
+### list search with email
+GET http://127.0.0.1:8080/system/user/list?pageSize=1&email=bluefrog
+
+### list search with mobile
+GET http://127.0.0.1:8080/system/user/list?pageSize=1&mobile=13212341235
+
 ###
+
