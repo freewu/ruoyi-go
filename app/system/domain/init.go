@@ -48,15 +48,13 @@ func InitDB(r *gin.Engine) {
 		db = db.Debug()
 	}
 	DB = db
-	// defer close
-	//i, err := db.DB()
-	//defer i.Close()
 }
 
 func autoMigrate(db *gorm.DB) {
 	// migrate model
 	err := db.AutoMigrate(
 		User{},// 后台用户表
+		Department{}, // 部门表
 	)
 	if err != nil {
 		log.Fatalf("migrate error: %v",err.Error())

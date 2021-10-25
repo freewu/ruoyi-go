@@ -12,21 +12,21 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type User struct {}
+type Department struct {}
 
 var (
-	user = service.User{}
+	department = service.Department{}
 )
 
-// @Summary 获取用户列表
-// @Description 用户列表
-// @Tags 用户管理
-// @Param data query domain.UserSearchRequest true "data"
-// @Success 0 {object} response.Response{data=response.PageResult{list=[]domain.User}} "{"code": 0, "data": { "list": [] } }"
-// @Router /system/user/list [get]
+// @Summary 获取部门列表
+// @Description 部门列表
+// @Tags 部门管理
+// @Param data query domain.DepartmentSearchRequest true "data"
+// @Success 0 {object} response.Response{data=response.PageResult{list=[]domain.Department}} "{"code": 0, "data": { "list": [] } }"
+// @Router /system/department/list [get]
 // @Security
-func (u *User) List(c *gin.Context) {
-	var searchParams domain.UserSearchRequest
+func (u *Department) List(c *gin.Context) {
+	var searchParams domain.DepartmentSearchRequest
 	// 获取查询参数
 	if err := c.Bind(&searchParams); err != nil {
 		response.Fail(-1, err.Error(),c)
@@ -36,7 +36,7 @@ func (u *User) List(c *gin.Context) {
 	if err := validate.Struct(&searchParams); err != nil {
 		response.Fail(-1, err.Error(),c)
 	}
-	err, list, total := user.GetList(&searchParams)
+	err, list, total := department.GetList(&searchParams)
 	if err != nil {
 		response.Fail(-1, err.Error(),c)
 	}
@@ -48,15 +48,15 @@ func (u *User) List(c *gin.Context) {
 	},c)
 }
 
-// @Summary 添加用户
-// @Description 添加用户
-// @Tags 用户管理
-// @Param data body domain.UserAddRequest true "data"
+// @Summary 添加部门
+// @Description 添加部门
+// @Tags 部门管理
+// @Param data body domain.DepartmentAddRequest true "data"
 // @Success 0 {object} response.Response "{"code": 0, "data": [...]}"
-// @Router /system/user/add [post]
+// @Router /system/department/add [post]
 // @Security
-func (u *User) Add(c *gin.Context) {
-	var data *domain.UserAddRequest
+func (u *Department) Add(c *gin.Context) {
+	var data *domain.DepartmentAddRequest
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
 		response.Fail(-1, err.Error(),c)
@@ -67,22 +67,22 @@ func (u *User) Add(c *gin.Context) {
 		response.Fail(-1, err.Error(),c)
 		return
 	}
-	if err := user.Create(data); err != nil {
+	if err := department.Create(data); err != nil {
 		response.Fail(-1, "添加失败: " + err.Error(),c)
 	} else {
 		response.Success("添加成功",c)
 	}
 }
 
-// @Summary 修改用户
-// @Description 修改用户
-// @Tags 用户管理
-// @Param data body domain.UserEditRequest true "data"
+// @Summary 修改部门
+// @Description 修改部门
+// @Tags 部门管理
+// @Param data body domain.DepartmentEditRequest true "data"
 // @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
-// @Router /system/user/edit [put]
+// @Router /system/department/edit [put]
 // @Security
-func (u *User) Edit(c *gin.Context) {
-	var data *domain.UserEditRequest
+func (u *Department) Edit(c *gin.Context) {
+	var data *domain.DepartmentEditRequest
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
 		response.Fail(-1, err.Error(),c)
@@ -93,21 +93,21 @@ func (u *User) Edit(c *gin.Context) {
 		response.Fail(-1, err.Error(),c)
 		return
 	}
-	if err := user.Update(data); err != nil {
+	if err := department.Update(data); err != nil {
 		response.Fail(-1, "修改失败: " + err.Error(),c)
 	} else {
 		response.Success("修改成功",c)
 	}
 }
 
-// @Summary 删除用户
-// @Description 删除用户
-// @Tags 用户管理
+// @Summary 删除部门
+// @Description 删除部门
+// @Tags 部门管理
 // @Param ids body request.IdsRequest true "{ids: [1,2']}"
 // @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
-// @Router /system/user/delete [delete]
+// @Router /system/department/delete [delete]
 // @Security
-func (u *User) Delete(c *gin.Context) {
+func (u *Department) Delete(c *gin.Context) {
 	var data *request.IdsRequest
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
@@ -118,7 +118,7 @@ func (u *User) Delete(c *gin.Context) {
 		response.Fail(-1, "参数不能为空",c)
 		return
 	}
-	err := user.Delete(data.Ids)
+	err := department.Delete(data.Ids)
 	if err != nil {
 		response.Fail(-1, "删除失败: " + err.Error(),c)
 		return
@@ -126,21 +126,21 @@ func (u *User) Delete(c *gin.Context) {
 	response.Success("删除成功",c)
 }
 
-// @Summary 获取指定ID的用户详情
-// @Description 获取指定ID的用户详情
-// @Tags 用户管理
+// @Summary 获取指定ID的部门详情
+// @Description 获取指定ID的部门详情
+// @Tags 部门管理
 // @Param data query request.GetById true "data"
-// @Success 0 {object} response.Response{data=domain.User} "{"code": 200, "data": [...]}"
-// @Router /system/user/detail [get]
+// @Success 0 {object} response.Response{data=domain.Department} "{"code": 200, "data": [...]}"
+// @Router /system/department/detail [get]
 // @Security
-func (u *User) Detail(c *gin.Context) {
+func (u *Department) Detail(c *gin.Context) {
 	var param *request.GetById
 
 	if err := c.Bind(&param); err != nil {
 		response.Fail(-1, err.Error(),c)
 		return
 	}
-	record, err := user.Detail(param.ID)
+	record, err := department.Detail(param.ID)
 	if err != nil {
 		response.Fail(-1, err.Error(),c)
 		return

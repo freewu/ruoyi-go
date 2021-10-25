@@ -136,7 +136,7 @@ func (s User) Create(data *domain.UserAddRequest) error {
 
 //@author: [bluefrog](https://github.com/freewu)
 //@function: Update
-//@description: 修改区域
+//@description: 修改用户
 //@param: data *model.UserEditRequest
 //@return: err error
 func (s User) Update(data *domain.UserEditRequest) (err error) {

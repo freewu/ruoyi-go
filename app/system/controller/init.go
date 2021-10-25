@@ -14,6 +14,18 @@ func InitRouter(r *gin.Engine) {
 		group.GET("/user/detail",user.Detail)
 
 		// 部门相关接口
+		department := Department{}
+		group.GET("/department/list",department.List)
+		group.POST("/department/add",department.Add)
+		group.PUT("/department/edit",department.Edit)
+		group.DELETE("/department/delete",department.Delete)
+		group.GET("/department/detail",department.Detail)
+
+		// 职位相关接口
+
+		// 角色相关接口
+
+		//
 
 	}
 	//r.GET("/ping", func(c *gin.Context) {
