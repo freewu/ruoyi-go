@@ -43,6 +43,8 @@ type DepartmentSearchRequest struct {
 	Status    *uint  `form:"status"`    // 部门状态（0正常 1停用）
 
 	IDNotIn []uint `json:"idNotIn"`
+	IDIn []uint `json:"idIn"`
+	ParentIDIn []uint `json:"parentIDIn"`
 	// 不包含的ID列表
 }
 

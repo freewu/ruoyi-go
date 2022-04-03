@@ -1,0 +1,177 @@
+### list default
+GET http://127.0.0.1:8080/system/department/list
+
+### list with page
+GET http://127.0.0.1:8080/system/department/list?page=1&pageSize=1
+
+### list with page
+GET http://127.0.0.1:8080/system/department/list?page=999
+
+### list with pageSize
+GET http://127.0.0.1:8080/system/department/list?pageSize=1
+
+### list with keyword
+GET http://127.0.0.1:8080/system/department/list?keyword=名称1
+
+### list with keyword
+GET http://127.0.0.1:8080/system/department/list?keyword=名称11
+
+### list with name
+GET http://127.0.0.1:8080/system/department/list?name=部门名称2
+
+### list with parentID = 1
+GET http://127.0.0.1:8080/system/department/list?parentID=1
+
+### list with parentID = 0
+GET http://127.0.0.1:8080/system/department/list?parentID=0
+
+### list with status = 0
+GET http://127.0.0.1:8080/system/department/list?status=0
+
+### list with status = 1
+GET http://127.0.0.1:8080/system/department/list?status=1
+
+### detail empty
+GET http://127.0.0.1:8080/system/department/detail
+
+### detail empty id
+GET http://127.0.0.1:8080/system/department/detail?id=
+
+### detail not exist data
+GET http://127.0.0.1:8080/system/department/detail?id=99999
+
+### detail sucess
+GET http://127.0.0.1:8080/system/department/detail?id=1
+
+### create empty
+POST http://127.0.0.1:8080/system/department/create
+content-type: application/json
+
+{
+}
+
+### create empty name
+POST http://127.0.0.1:8080/system/department/create
+content-type: application/json
+
+{
+  "name": ""
+}
+
+### create with exitst name
+POST http://127.0.0.1:8080/system/department/create
+content-type: application/json
+
+{
+  "name": "部门名称"
+}
+
+### create success
+POST http://127.0.0.1:8080/system/department/create
+content-type: application/json
+
+{
+  "name": "部门名称4"
+}
+
+### create success full parameters
+POST http://127.0.0.1:8080/system/department/create
+content-type: application/json
+
+{
+  "name": "部门名称2",
+  "ancestors": "1",
+  "parentID": 1,
+  "order": 1,
+  "status": 1
+}
+
+### update empty
+PUT http://127.0.0.1:8080/system/department/update
+content-type: application/json
+
+{
+}
+
+### update empty id
+PUT http://127.0.0.1:8080/system/department/update
+content-type: application/json
+
+{
+  "id": 0,
+  "name": "部门名称"
+}
+
+### update empty name
+PUT http://127.0.0.1:8080/system/department/update
+content-type: application/json
+
+{
+  "name": ""
+}
+
+### update with exitst name
+PUT http://127.0.0.1:8080/system/department/update
+content-type: application/json
+
+{
+  "id": 2,
+  "name": "部门名称"
+}
+
+### update success
+PUT http://127.0.0.1:8080/system/department/update
+content-type: application/json
+
+{
+  "id": 2,
+  "name": "部门名称111"
+}
+
+### update success full parameters
+PUT http://127.0.0.1:8080/system/department/update
+content-type: application/json
+
+{
+  "id": 3,
+  "name": "部门名称333",
+  "ancestors": "1",
+  "parentID": 1,
+  "order": 1,
+  "status": 0
+}
+
+### delete empty
+DELETE http://127.0.0.1:8080/system/department/delete
+content-type: application/json
+
+{
+}
+
+### delete empty ids
+DELETE http://127.0.0.1:8080/system/department/delete
+content-type: application/json
+
+{
+  "ids": []
+}
+
+### delete exist child department
+DELETE http://127.0.0.1:8080/system/department/delete
+content-type: application/json
+
+{
+  "ids": [1]
+}
+
+### delete success
+DELETE http://127.0.0.1:8080/system/department/delete
+content-type: application/json
+
+{
+  "ids": [4]
+}
+
+###
+
+

@@ -118,6 +118,15 @@ func (u *Department) Delete(c *gin.Context) {
 		response.Fail(-1, "参数不能为空",c)
 		return
 	}
+	// 如果有子部门存在，禁止删除,需要先删除完子部门
+	_, _, total := department.GetList(&domain.DepartmentSearchRequest{
+		ParentIDIn: data.Ids,
+		PageInfo:   request.PageInfo{PageSize: 1},
+	})
+	if total > 0 {
+		response.Fail(-1, "存在子部门，禁止删除",c)
+		return
+	}
 	err := department.Delete(data.Ids)
 	if err != nil {
 		response.Fail(-1, "删除失败: " + err.Error(),c)

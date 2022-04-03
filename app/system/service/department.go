@@ -52,8 +52,14 @@ func (s Department) parseFilter(db *gorm.DB, searchParams *domain.DepartmentSear
 	if searchParams.ParentID != nil { // 父部门ID
 		db = db.Where("parent_id = ?", searchParams.ParentID)
 	}
+	if len(searchParams.ParentIDIn) > 0 { // 父部门ID 数组
+		db = db.Where("parent_id IN (?)", searchParams.ParentIDIn)
+	}
 	if len(searchParams.IDNotIn) > 0 { // IDNotIn
-		db = db.Where("id NOT IN ?", searchParams.IDNotIn)
+		db = db.Where("id NOT IN (?)", searchParams.IDNotIn)
+	}
+	if len(searchParams.IDIn) > 0 { // IDIn
+		db = db.Where("id IN (?)", searchParams.IDIn)
 	}
 	if searchParams.Name != "" { // 部门名称
 		db = db.Where("name like ?", "%" + searchParams.Name + "%")
