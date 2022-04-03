@@ -186,7 +186,7 @@ func (s User) Delete(ids []uint) (err error) {
 	return nil
 }
 
-//@author: [freewu](http://git.yibianli.com/freewu)
+//@author: [bluefrog](https://github.com/freewu)
 //@function: Detail
 //@description: 获取指定ID用户详情
 //@param: id uint

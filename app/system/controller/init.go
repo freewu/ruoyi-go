@@ -8,16 +8,16 @@ func InitRouter(r *gin.Engine) {
 		// 用户相关接口
 		user := User{}
 		group.GET("/user/list",user.List)
-		group.POST("/user/add",user.Add)
-		group.PUT("/user/edit",user.Edit)
+		group.POST("/user/create",user.Create)
+		group.PUT("/user/update",user.Update)
 		group.DELETE("/user/delete",user.Delete)
 		group.GET("/user/detail",user.Detail)
 
 		// 部门相关接口
 		department := Department{}
 		group.GET("/department/list",department.List)
-		group.POST("/department/add",department.Add)
-		group.PUT("/department/edit",department.Edit)
+		group.POST("/department/create",department.Create)
+		group.PUT("/department/update",department.Update)
 		group.DELETE("/department/delete",department.Delete)
 		group.GET("/department/detail",department.Detail)
 

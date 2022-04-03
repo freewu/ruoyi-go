@@ -1,5 +1,108 @@
 basePath: /
 definitions:
+  domain.Department:
+    properties:
+      ancestors:
+        description: 祖级列表
+        type: string
+      createBy:
+        description: "DeleteFlag\tuint\t`json:\"deleteFlag\" form:\"deleteFlag\" gorm:\"type:tinyint(3);default:0;comment:删除标志（0代表存在 2代表删除）\"` // 删除标志（0代表存在 2代表删除）"
+        type: string
+      createdAt:
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      id:
+        type: integer
+      leader:
+        description: 负责人
+        type: string
+      mobile:
+        description: 联系电话
+        type: string
+      name:
+        description: 部门名称
+        type: string
+      order:
+        description: 显示顺序
+        type: integer
+      parentID:
+        description: 父部门ID
+        type: integer
+      status:
+        description: 部门状态（0正常 1停用）
+        type: integer
+      updateBy:
+        description: 更新者
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - name
+    type: object
+  domain.DepartmentAddRequest:
+    properties:
+      ancestors:
+        description: 祖级列表
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      leader:
+        description: 负责人
+        type: string
+      mobile:
+        description: 联系电话
+        type: string
+      name:
+        description: 部门名称
+        type: string
+      order:
+        description: 显示顺序
+        type: integer
+      parentID:
+        description: 父部门ID
+        type: integer
+      status:
+        description: 部门状态（0正常 1停用）
+        type: integer
+    required:
+    - name
+    type: object
+  domain.DepartmentEditRequest:
+    properties:
+      ancestors:
+        description: 祖级列表
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      id:
+        description: 主键ID
+        type: integer
+      leader:
+        description: 负责人
+        type: string
+      mobile:
+        description: 联系电话
+        type: string
+      name:
+        description: 部门名称
+        type: string
+      order:
+        description: 显示顺序
+        type: integer
+      parentID:
+        description: 父部门ID
+        type: integer
+      status:
+        description: 部门状态（0正常 1停用）
+        type: integer
+    required:
+    - id
+    - name
+    type: object
   domain.User:
     properties:
       avatar:
@@ -179,7 +282,169 @@ info:
   title: ruoyi-go API文档
   version: "1.0"
 paths:
-  /system/user/add:
+  /system/department/create:
+    post:
+      description: 添加部门
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/domain.DepartmentAddRequest'
+      responses:
+        "0":
+          description: '{"code": 0, "msg":"Success","data": null}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - "": []
+      summary: 添加部门
+      tags:
+      - 部门管理
+  /system/department/delete:
+    delete:
+      description: 删除部门
+      parameters:
+      - description: '{ids: [1,2'']}'
+        in: body
+        name: ids
+        required: true
+        schema:
+          $ref: '#/definitions/request.IdsRequest'
+      responses:
+        "0":
+          description: '{"code": 0, "msg":"Success","data": null}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - "": []
+      summary: 删除部门
+      tags:
+      - 部门管理
+  /system/department/detail:
+    get:
+      description: 获取指定ID的部门详情
+      parameters:
+      - description: 主键ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "0":
+          description: '{"code": 0, "msg":"Success","data": {}}'
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/domain.Department'
+              type: object
+      security:
+      - "": []
+      summary: 获取指定ID的部门详情
+      tags:
+      - 部门管理
+  /system/department/list:
+    get:
+      description: 部门列表
+      parameters:
+      - description: 祖级列表
+        in: query
+        name: ancestors
+        type: string
+      - description: 创建者
+        in: query
+        name: createBy
+        type: string
+      - description: 邮箱
+        in: query
+        name: email
+        type: string
+      - description: 关键字
+        in: query
+        name: keyword
+        type: string
+      - description: 负责人
+        in: query
+        name: leader
+        type: string
+      - description: 联系电话
+        in: query
+        name: mobile
+        type: string
+      - description: 部门名称
+        in: query
+        name: name
+        type: string
+      - description: 排序
+        in: query
+        name: orderBy
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页大小
+        in: query
+        name: pageSize
+        type: integer
+      - description: 父部门ID
+        in: query
+        name: parentID
+        type: integer
+      - description: 部门状态（0正常 1停用）
+        in: query
+        name: status
+        type: integer
+      - description: 更新者
+        in: query
+        name: updateBy
+        type: string
+      responses:
+        "0":
+          description: '{"code": 0, "msg": "Success","data": { "list": [],"total": 0 } }'
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  allOf:
+                  - $ref: '#/definitions/response.PageResult'
+                  - properties:
+                      list:
+                        items:
+                          $ref: '#/definitions/domain.Department'
+                        type: array
+                    type: object
+              type: object
+      security:
+      - "": []
+      summary: 获取部门列表
+      tags:
+      - 部门管理
+  /system/department/update:
+    put:
+      description: 修改部门
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/domain.DepartmentEditRequest'
+      responses:
+        "0":
+          description: '{"code": 0, "msg":"Success","data": null}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - "": []
+      summary: 修改部门
+      tags:
+      - 部门管理
+  /system/user/create:
     post:
       description: 添加用户
       parameters:
@@ -191,7 +456,7 @@ paths:
           $ref: '#/definitions/domain.UserAddRequest'
       responses:
         "0":
-          description: '{"code": 0, "data": [...]}'
+          description: '{"code": 0, "msg":"Success","data": null}'
           schema:
             $ref: '#/definitions/response.Response'
       security:
@@ -211,7 +476,7 @@ paths:
           $ref: '#/definitions/request.IdsRequest'
       responses:
         "0":
-          description: '{"code": 200, "data": [...]}'
+          description: '{"code": 0, "msg":"Success","data": null}'
           schema:
             $ref: '#/definitions/response.Response'
       security:
@@ -230,7 +495,7 @@ paths:
         type: integer
       responses:
         "0":
-          description: '{"code": 200, "data": [...]}'
+          description: '{"code": 0, "msg":"Success","data": {}}'
           schema:
             allOf:
             - $ref: '#/definitions/response.Response'
@@ -241,26 +506,6 @@ paths:
       security:
       - "": []
       summary: 获取指定ID的用户详情
-      tags:
-      - 用户管理
-  /system/user/edit:
-    put:
-      description: 修改用户
-      parameters:
-      - description: data
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/domain.UserEditRequest'
-      responses:
-        "0":
-          description: '{"code": 200, "data": [...]}'
-          schema:
-            $ref: '#/definitions/response.Response'
-      security:
-      - "": []
-      summary: 修改用户
       tags:
       - 用户管理
   /system/user/list:
@@ -337,7 +582,7 @@ paths:
         type: string
       responses:
         "0":
-          description: '{"code": 0, "data": { "list": [] } }'
+          description: '{"code": 0, "msg": "Success","data": { "list": [],"total": 0 } }'
           schema:
             allOf:
             - $ref: '#/definitions/response.Response'
@@ -355,6 +600,26 @@ paths:
       security:
       - "": []
       summary: 获取用户列表
+      tags:
+      - 用户管理
+  /system/user/update:
+    put:
+      description: 修改用户
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UserEditRequest'
+      responses:
+        "0":
+          description: '{"code": 0, "msg":"Success","data": null}'
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - "": []
+      summary: 修改用户
       tags:
       - 用户管理
 swagger: "2.0"

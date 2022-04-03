@@ -22,7 +22,7 @@ var (
 // @Description 用户列表
 // @Tags 用户管理
 // @Param data query domain.UserSearchRequest true "data"
-// @Success 0 {object} response.Response{data=response.PageResult{list=[]domain.User}} "{"code": 0, "data": { "list": [] } }"
+// @Success 0 {object} response.Response{data=response.PageResult{list=[]domain.User}} "{"code": 0, "msg": "Success","data": { "list": [],"total": 0 } }"
 // @Router /system/user/list [get]
 // @Security
 func (u *User) List(c *gin.Context) {
@@ -52,10 +52,10 @@ func (u *User) List(c *gin.Context) {
 // @Description 添加用户
 // @Tags 用户管理
 // @Param data body domain.UserAddRequest true "data"
-// @Success 0 {object} response.Response "{"code": 0, "data": [...]}"
-// @Router /system/user/add [post]
+// @Success 0 {object} response.Response "{"code": 0, "msg":"Success","data": null}"
+// @Router /system/user/create [post]
 // @Security
-func (u *User) Add(c *gin.Context) {
+func (u *User) Create(c *gin.Context) {
 	var data *domain.UserAddRequest
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
@@ -78,10 +78,10 @@ func (u *User) Add(c *gin.Context) {
 // @Description 修改用户
 // @Tags 用户管理
 // @Param data body domain.UserEditRequest true "data"
-// @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
-// @Router /system/user/edit [put]
+// @Success 0 {object} response.Response "{"code": 0, "msg":"Success","data": null}"
+// @Router /system/user/update [put]
 // @Security
-func (u *User) Edit(c *gin.Context) {
+func (u *User) Update(c *gin.Context) {
 	var data *domain.UserEditRequest
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
@@ -104,7 +104,7 @@ func (u *User) Edit(c *gin.Context) {
 // @Description 删除用户
 // @Tags 用户管理
 // @Param ids body request.IdsRequest true "{ids: [1,2']}"
-// @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
+// @Success 0 {object} response.Response "{"code": 0, "msg":"Success","data": null}"
 // @Router /system/user/delete [delete]
 // @Security
 func (u *User) Delete(c *gin.Context) {
@@ -130,7 +130,7 @@ func (u *User) Delete(c *gin.Context) {
 // @Description 获取指定ID的用户详情
 // @Tags 用户管理
 // @Param data query request.GetById true "data"
-// @Success 0 {object} response.Response{data=domain.User} "{"code": 200, "data": [...]}"
+// @Success 0 {object} response.Response{data=domain.User} "{"code": 0, "msg":"Success","data": {}}"
 // @Router /system/user/detail [get]
 // @Security
 func (u *User) Detail(c *gin.Context) {

@@ -23,7 +23,7 @@ func (r *Response) Error(code int,msg string,c *gin.Context) {
 func (r *Response) Success(data interface{},c *gin.Context) {
 	response = &Response{}
 	response.Code = 0
-	response.Msg = "Success"
+	response.Msg = "success"
 	response.Data = data
 	c.JSON(http.StatusOK,response)
 }

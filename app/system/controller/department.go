@@ -8,8 +8,6 @@ import (
 	resp "ruoyi-go/common/model/response"
 	"ruoyi-go/common/response"
 	"ruoyi-go/common/validate"
-
-	log "github.com/sirupsen/logrus"
 )
 
 type Department struct {}
@@ -22,7 +20,7 @@ var (
 // @Description 部门列表
 // @Tags 部门管理
 // @Param data query domain.DepartmentSearchRequest true "data"
-// @Success 0 {object} response.Response{data=response.PageResult{list=[]domain.Department}} "{"code": 0, "data": { "list": [] } }"
+// @Success 0 {object} response.Response{data=response.PageResult{list=[]domain.Department}} "{"code": 0, "msg": "success","data": { "list": [],"total": 0 } }"
 // @Router /system/department/list [get]
 // @Security
 func (u *Department) List(c *gin.Context) {
@@ -30,15 +28,17 @@ func (u *Department) List(c *gin.Context) {
 	// 获取查询参数
 	if err := c.Bind(&searchParams); err != nil {
 		response.Fail(-1, err.Error(),c)
+		return
 	}
-	log.Printf("searchParam: %#v",searchParams)
 	// 验证参数
 	if err := validate.Struct(&searchParams); err != nil {
 		response.Fail(-1, err.Error(),c)
+		return
 	}
 	err, list, total := department.GetList(&searchParams)
 	if err != nil {
 		response.Fail(-1, err.Error(),c)
+		return
 	}
 	response.OK(resp.PageResult{
 		List: list,
@@ -51,12 +51,12 @@ func (u *Department) List(c *gin.Context) {
 // @Summary 添加部门
 // @Description 添加部门
 // @Tags 部门管理
-// @Param data body domain.DepartmentAddRequest true "data"
-// @Success 0 {object} response.Response "{"code": 0, "data": [...]}"
-// @Router /system/department/add [post]
+// @Param data body domain.DepartmentCreateRequest true "data"
+// @Success 0 {object} response.Response "{"code": 0, "msg":"success","data": null}"
+// @Router /system/department/create [post]
 // @Security
-func (u *Department) Add(c *gin.Context) {
-	var data *domain.DepartmentAddRequest
+func (u *Department) Create(c *gin.Context) {
+	var data *domain.DepartmentCreateRequest
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
 		response.Fail(-1, err.Error(),c)
@@ -77,12 +77,12 @@ func (u *Department) Add(c *gin.Context) {
 // @Summary 修改部门
 // @Description 修改部门
 // @Tags 部门管理
-// @Param data body domain.DepartmentEditRequest true "data"
-// @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
-// @Router /system/department/edit [put]
+// @Param data body domain.DepartmentUpdateRequest true "data"
+// @Success 0 {object} response.Response "{"code": 0, "msg":"success","data": null}"
+// @Router /system/department/update [put]
 // @Security
-func (u *Department) Edit(c *gin.Context) {
-	var data *domain.DepartmentEditRequest
+func (u *Department) Update(c *gin.Context) {
+	var data *domain.DepartmentUpdateRequest
 	// 获取参数
 	if err := c.Bind(&data); err != nil {
 		response.Fail(-1, err.Error(),c)
@@ -104,7 +104,7 @@ func (u *Department) Edit(c *gin.Context) {
 // @Description 删除部门
 // @Tags 部门管理
 // @Param ids body request.IdsRequest true "{ids: [1,2']}"
-// @Success 0 {object} response.Response "{"code": 200, "data": [...]}"
+// @Success 0 {object} response.Response "{"code": 0, "msg":"success","data": null}"
 // @Router /system/department/delete [delete]
 // @Security
 func (u *Department) Delete(c *gin.Context) {
@@ -130,13 +130,17 @@ func (u *Department) Delete(c *gin.Context) {
 // @Description 获取指定ID的部门详情
 // @Tags 部门管理
 // @Param data query request.GetById true "data"
-// @Success 0 {object} response.Response{data=domain.Department} "{"code": 200, "data": [...]}"
+// @Success 0 {object} response.Response{data=domain.Department} "{"code": 0, "msg":"success","data": {}}"
 // @Router /system/department/detail [get]
 // @Security
 func (u *Department) Detail(c *gin.Context) {
-	var param *request.GetById
-
+	var param request.GetById
 	if err := c.Bind(&param); err != nil {
+		response.Fail(-1, err.Error(),c)
+		return
+	}
+	// 验证参数
+	if err := validate.Struct(&param); err != nil {
 		response.Fail(-1, err.Error(),c)
 		return
 	}

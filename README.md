@@ -29,5 +29,9 @@ github.com/swaggo/swag 接口文档
 
 # 接口文档生成
 ```bash
+# 生成文档
 swag init -o ./app/swagger
+
+# 访问
+http://127.0.0.1:8080/swagger.json
 ```

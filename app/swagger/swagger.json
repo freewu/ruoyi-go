@@ -9,7 +9,278 @@
     "host": "localhost",
     "basePath": "/",
     "paths": {
-        "/system/user/add": {
+        "/system/department/create": {
+            "post": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "添加部门",
+                "tags": [
+                    "部门管理"
+                ],
+                "summary": "添加部门",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.DepartmentAddRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/system/department/delete": {
+            "delete": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "删除部门",
+                "tags": [
+                    "部门管理"
+                ],
+                "summary": "删除部门",
+                "parameters": [
+                    {
+                        "description": "{ids: [1,2']}",
+                        "name": "ids",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.IdsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/system/department/detail": {
+            "get": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "获取指定ID的部门详情",
+                "tags": [
+                    "部门管理"
+                ],
+                "summary": "获取指定ID的部门详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "主键ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": {}}",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/domain.Department"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/system/department/list": {
+            "get": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "部门列表",
+                "tags": [
+                    "部门管理"
+                ],
+                "summary": "获取部门列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "祖级列表",
+                        "name": "ancestors",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "创建者",
+                        "name": "createBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "邮箱",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "关键字",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "负责人",
+                        "name": "leader",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "联系电话",
+                        "name": "mobile",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "部门名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "排序",
+                        "name": "orderBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "页码",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页大小",
+                        "name": "pageSize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "父部门ID",
+                        "name": "parentID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "部门状态（0正常 1停用）",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "更新者",
+                        "name": "updateBy",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"msg\": \"Success\",\"data\": { \"list\": [],\"total\": 0 } }",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "allOf": [
+                                                {
+                                                    "$ref": "#/definitions/response.PageResult"
+                                                },
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "list": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/definitions/domain.Department"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/system/department/update": {
+            "put": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "修改部门",
+                "tags": [
+                    "部门管理"
+                ],
+                "summary": "修改部门",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.DepartmentEditRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/system/user/create": {
             "post": {
                 "security": [
                     {
@@ -34,7 +305,7 @@
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 0, \"data\": [...]}",
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -67,7 +338,7 @@
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -98,7 +369,7 @@
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 200, \"data\": [...]}",
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": {}}",
                         "schema": {
                             "allOf": [
                                 {
@@ -113,39 +384,6 @@
                                     }
                                 }
                             ]
-                        }
-                    }
-                }
-            }
-        },
-        "/system/user/edit": {
-            "put": {
-                "security": [
-                    {
-                        "": []
-                    }
-                ],
-                "description": "修改用户",
-                "tags": [
-                    "用户管理"
-                ],
-                "summary": "修改用户",
-                "parameters": [
-                    {
-                        "description": "data",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/domain.UserEditRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "0": {
-                        "description": "{\"code\": 200, \"data\": [...]}",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
                         }
                     }
                 }
@@ -269,7 +507,7 @@
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 0, \"data\": { \"list\": [] } }",
+                        "description": "{\"code\": 0, \"msg\": \"Success\",\"data\": { \"list\": [],\"total\": 0 } }",
                         "schema": {
                             "allOf": [
                                 {
@@ -303,9 +541,184 @@
                     }
                 }
             }
+        },
+        "/system/user/update": {
+            "put": {
+                "security": [
+                    {
+                        "": []
+                    }
+                ],
+                "description": "修改用户",
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "修改用户",
+                "parameters": [
+                    {
+                        "description": "data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.UserEditRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "0": {
+                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "domain.Department": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "ancestors": {
+                    "description": "祖级列表",
+                    "type": "string"
+                },
+                "createBy": {
+                    "description": "DeleteFlag\tuint\t`json:\"deleteFlag\" form:\"deleteFlag\" gorm:\"type:tinyint(3);default:0;comment:删除标志（0代表存在 2代表删除）\"` // 删除标志（0代表存在 2代表删除）",
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "leader": {
+                    "description": "负责人",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "联系电话",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "部门名称",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "显示顺序",
+                    "type": "integer"
+                },
+                "parentID": {
+                    "description": "父部门ID",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "部门状态（0正常 1停用）",
+                    "type": "integer"
+                },
+                "updateBy": {
+                    "description": "更新者",
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.DepartmentAddRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "ancestors": {
+                    "description": "祖级列表",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "leader": {
+                    "description": "负责人",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "联系电话",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "部门名称",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "显示顺序",
+                    "type": "integer"
+                },
+                "parentID": {
+                    "description": "父部门ID",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "部门状态（0正常 1停用）",
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.DepartmentEditRequest": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "ancestors": {
+                    "description": "祖级列表",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "leader": {
+                    "description": "负责人",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "联系电话",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "部门名称",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "显示顺序",
+                    "type": "integer"
+                },
+                "parentID": {
+                    "description": "父部门ID",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "部门状态（0正常 1停用）",
+                    "type": "integer"
+                }
+            }
+        },
         "domain.User": {
             "type": "object",
             "required": [

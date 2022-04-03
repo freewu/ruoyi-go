@@ -1,8 +1,10 @@
 package service
 
 import (
+	"errors"
 	"gorm.io/gorm"
 	"ruoyi-go/app/system/domain"
+	"ruoyi-go/common/model/request"
 	"strings"
 )
 
@@ -23,11 +25,11 @@ func (s Department) GetList(searchParams *domain.DepartmentSearchRequest) (err e
 	// 如果数据 0,也没有必要处理以下动作了
 	if total > 0 {
 		// 排序
-		orderBy := "id desc"
+		// orderBy := "id desc"
+		db.Order("id desc")
 		if searchParams.OrderBy != "" {
 			db.Order(searchParams.OrderBy)
 		}
-		db.Order(orderBy)
 		// 分页
 		if searchParams.PageSize > 0 {
 			limit := searchParams.PageSize
@@ -50,6 +52,9 @@ func (s Department) parseFilter(db *gorm.DB, searchParams *domain.DepartmentSear
 	if searchParams.ParentID != nil { // 父部门ID
 		db = db.Where("parent_id = ?", searchParams.ParentID)
 	}
+	if len(searchParams.IDNotIn) > 0 { // IDNotIn
+		db = db.Where("id NOT IN ?", searchParams.IDNotIn)
+	}
 	if searchParams.Name != "" { // 部门名称
 		db = db.Where("name like ?", "%" + searchParams.Name + "%")
 	}
@@ -58,15 +63,6 @@ func (s Department) parseFilter(db *gorm.DB, searchParams *domain.DepartmentSear
 	}
 	if searchParams.Status !=  nil { // 部门状态（0正常 1停用）
 		db = db.Where("status = ?", searchParams.Status)
-	}
-	if searchParams.Leader != "" { // 负责人
-		db = db.Where("leader = ?", searchParams.Leader)
-	}
-	if searchParams.Mobile != "" { // 联系电话
-		db = db.Where("mobile = ?", searchParams.Mobile)
-	}
-	if searchParams.Email != "" { // 邮箱
-		db = db.Where("email LIKE ?", "%" + searchParams.Email + "%")
 	}
 	if searchParams.CreateBy != "" { // 创建者
 		db = db.Where("create_by LIKE ?", "%" + searchParams.CreateBy + "%")
@@ -77,11 +73,7 @@ func (s Department) parseFilter(db *gorm.DB, searchParams *domain.DepartmentSear
 	if searchParams.Keyword != "" { // 关键词
 		k1 := strings.Trim(searchParams.Keyword," \t\r\n")
 		k := "%" + k1 + "%"
-		db = db.Where("(" +
-			"name LIKE ? OR " +
-			"mobile LIKE ? OR " +
-			"email LIKE ? OR " +
-			"leader LIKE ? )",k,k,k,k)
+		db = db.Where("(name LIKE ?  )",k)
 	}
 	return db
 }
@@ -91,17 +83,17 @@ func (s Department) parseFilter(db *gorm.DB, searchParams *domain.DepartmentSear
 //@description: 添加部门数据
 //@param: data *domain.DepartmentAddRequest
 //@return: error
-func (s Department) Create(data *domain.DepartmentAddRequest) error {
-	// todo 判断部门名是否已存在
+func (s Department) Create(data *domain.DepartmentCreateRequest) error {
+	// 判断部门名称是否唯一
+	if s.IsExist(data.Name,nil) {
+		return errors.New("已存在相同的部门名称")
+	}
 	department := new(domain.Department)
 	department.ParentID = data.ParentID
 	department.Name = data.Name
 	department.Ancestors = data.Ancestors
 	department.Order = data.Order
 	department.Status = data.Status
-	department.Leader = data.Leader
-	department.Mobile = data.Mobile
-	department.Email = data.Email
 
 	department.CreateBy = "" // todo 通过登录服务获取
 	department.UpdateBy = "" // todo 通过登录服务获取
@@ -114,33 +106,17 @@ func (s Department) Create(data *domain.DepartmentAddRequest) error {
 //@description: 修改区域
 //@param: data *model.DepartmentEditRequest
 //@return: err error
-func (s Department) Update(data *domain.DepartmentEditRequest) (err error) {
-	// todo 判断部门名是否已存在
-
-	/*
-		department. = data.ParentID
-		department. = data.Name
-		department. = data.Ancestors
-		department. = data.Order
-		department. = data.Status
-		department. = data.Leader
-		department. = data.Mobile
-		department.Email = data.Email
-
-		department.CreateBy = "" // todo 通过登录服务获取
-		department.UpdateBy = "" // todo 通过登录服务获取
-	 */
-
+func (s Department) Update(data *domain.DepartmentUpdateRequest) (err error) {
+	// 判断名字是否唯一
+	if s.IsExist(data.Name,&[]uint{ data.ID }) {
+		return errors.New("已存在相同的部门名称")
+	}
 	record := make(map[string]interface{})
 	record["ParentID"] = data.ParentID
 	record["Name"] = data.Name
 	record["Ancestors"] = data.Ancestors
 	record["Order"] = data.Order
 	record["Status"] = data.Status
-
-	record["Leader"] = data.Leader
-	record["Mobile"] = data.Mobile
-	record["Email"] = data.Email
 
 	record["UpdateBy"] = "" // todo 通过登录服务获取
 
@@ -173,7 +149,7 @@ func (s Department) Delete(ids []uint) (err error) {
 	return nil
 }
 
-//@author: [freewu](http://git.yibianli.com/freewu)
+//@author: [bluefrog](https://github.com/freewu)
 //@function: Detail
 //@description: 获取指定ID部门详情
 //@param: id uint
@@ -185,4 +161,23 @@ func (s Department) Detail(id uint) (*domain.Department, error) {
 		return nil, err
 	}
 	return &detail, nil
+}
+
+//@author: [bluefrog](https://github.com/freewu)
+//@function: IsExistAreaType
+//@description: 判断区域类型是否存在
+//@param: name string 区域类型名称
+//@param: excludeIds *[]uint 不包含的区域类型ID
+//@return: err error
+func (s Department)IsExist(name string,excludeIds *[]uint) bool {
+	// 判断名字是否唯一
+	var filter = &domain.DepartmentSearchRequest{
+		Name: name,
+		PageInfo: request.PageInfo{ PageSize: 1 },
+	}
+	if excludeIds != nil {
+		filter.IDNotIn = *excludeIds
+	}
+	_, _, total := s.GetList(filter)
+	return total > 0
 }

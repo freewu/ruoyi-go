@@ -12,7 +12,7 @@ type SortInfo struct {
 
 // Find by id structure
 type GetById struct {
-	ID uint `json:"id" form:"id" validate:"required"` // 主键ID
+	ID  uint `json:"id" form:"id" validate:"required"` // 主键ID
 }
 
 type IdsRequest struct {
