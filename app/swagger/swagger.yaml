@@ -6,21 +6,12 @@ definitions:
         description: 祖级列表
         type: string
       createBy:
-        description: "DeleteFlag\tuint\t`json:\"deleteFlag\" form:\"deleteFlag\" gorm:\"type:tinyint(3);default:0;comment:删除标志（0代表存在 2代表删除）\"` // 删除标志（0代表存在 2代表删除）"
+        description: 创建者
         type: string
       createdAt:
         type: string
-      email:
-        description: 邮箱
-        type: string
       id:
         type: integer
-      leader:
-        description: 负责人
-        type: string
-      mobile:
-        description: 联系电话
-        type: string
       name:
         description: 部门名称
         type: string
@@ -31,7 +22,8 @@ definitions:
         description: 父部门ID
         type: integer
       status:
-        description: 部门状态（0正常 1停用）
+        description: "Leader\t\tuint\t`json:\"leader\" form:\"leader\" gorm:\"type:int(10);default:0;comment:负责人\"`
+          // 负责人 对应用户表中用户"
         type: integer
       updateBy:
         description: 更新者
@@ -41,19 +33,10 @@ definitions:
     required:
     - name
     type: object
-  domain.DepartmentAddRequest:
+  domain.DepartmentCreateRequest:
     properties:
       ancestors:
         description: 祖级列表
-        type: string
-      email:
-        description: 邮箱
-        type: string
-      leader:
-        description: 负责人
-        type: string
-      mobile:
-        description: 联系电话
         type: string
       name:
         description: 部门名称
@@ -65,28 +48,20 @@ definitions:
         description: 父部门ID
         type: integer
       status:
-        description: 部门状态（0正常 1停用）
+        description: "Leader\t\tuint\t`json:\"leader\" form:\"leader\" gorm:\"type:int(10);default:0;comment:负责人\"`
+          // 负责人 对应用户表中用户"
         type: integer
     required:
     - name
     type: object
-  domain.DepartmentEditRequest:
+  domain.DepartmentUpdateRequest:
     properties:
       ancestors:
         description: 祖级列表
         type: string
-      email:
-        description: 邮箱
-        type: string
       id:
         description: 主键ID
         type: integer
-      leader:
-        description: 负责人
-        type: string
-      mobile:
-        description: 联系电话
-        type: string
       name:
         description: 部门名称
         type: string
@@ -97,7 +72,8 @@ definitions:
         description: 父部门ID
         type: integer
       status:
-        description: 部门状态（0正常 1停用）
+        description: "Leader\t\tuint\t`json:\"leader\" form:\"leader\" gorm:\"type:int(10);default:0;comment:负责人\"`
+          // 负责人 对应用户表中用户"
         type: integer
     required:
     - id
@@ -109,7 +85,9 @@ definitions:
         description: 用户头像
         type: string
       birthday:
-        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日"
+        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\"
+          time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"`
+          // 生日"
         type: string
       createdAt:
         type: string
@@ -164,7 +142,9 @@ definitions:
         description: 用户头像
         type: string
       birthday:
-        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日"
+        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\"
+          time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"`
+          // 生日"
         type: string
       departmentID:
         description: 部门ID
@@ -204,7 +184,9 @@ definitions:
         description: 用户头像
         type: string
       birthday:
-        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\" time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"` // 生日"
+        description: "Birthday     \tcore.LocalDate \t`json:\"birthday\" form:\"birthday\"
+          time_format:\"2006-01-02\" time_utc:\"1\" gorm:\"default:null;comment:生日\"`
+          // 生日"
         type: string
       departmentID:
         description: 部门ID
@@ -253,8 +235,7 @@ definitions:
     type: object
   response.PageResult:
     properties:
-      list:
-        type: object
+      list: {}
       page:
         type: integer
       pageSize:
@@ -270,7 +251,6 @@ definitions:
         type: integer
       data:
         description: 数据集
-        type: object
       msg:
         description: 消息
         type: string
@@ -291,10 +271,10 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/domain.DepartmentAddRequest'
+          $ref: '#/definitions/domain.DepartmentCreateRequest'
       responses:
         "0":
-          description: '{"code": 0, "msg":"Success","data": null}'
+          description: '{"code": 0, "msg":"success","data": null}'
           schema:
             $ref: '#/definitions/response.Response'
       security:
@@ -314,7 +294,7 @@ paths:
           $ref: '#/definitions/request.IdsRequest'
       responses:
         "0":
-          description: '{"code": 0, "msg":"Success","data": null}'
+          description: '{"code": 0, "msg":"success","data": null}'
           schema:
             $ref: '#/definitions/response.Response'
       security:
@@ -333,7 +313,7 @@ paths:
         type: integer
       responses:
         "0":
-          description: '{"code": 0, "msg":"Success","data": {}}'
+          description: '{"code": 0, "msg":"success","data": {}}'
           schema:
             allOf:
             - $ref: '#/definitions/response.Response'
@@ -358,21 +338,21 @@ paths:
         in: query
         name: createBy
         type: string
-      - description: 邮箱
+      - collectionFormat: csv
         in: query
-        name: email
-        type: string
+        items:
+          type: integer
+        name: idIn
+        type: array
+      - collectionFormat: csv
+        in: query
+        items:
+          type: integer
+        name: idNotIn
+        type: array
       - description: 关键字
         in: query
         name: keyword
-        type: string
-      - description: 负责人
-        in: query
-        name: leader
-        type: string
-      - description: 联系电话
-        in: query
-        name: mobile
         type: string
       - description: 部门名称
         in: query
@@ -386,7 +366,7 @@ paths:
         in: query
         name: page
         type: integer
-      - description: 每页大小
+      - description: 每页大小 不传默认 20条
         in: query
         name: pageSize
         type: integer
@@ -394,6 +374,12 @@ paths:
         in: query
         name: parentID
         type: integer
+      - collectionFormat: csv
+        in: query
+        items:
+          type: integer
+        name: parentIDIn
+        type: array
       - description: 部门状态（0正常 1停用）
         in: query
         name: status
@@ -404,7 +390,8 @@ paths:
         type: string
       responses:
         "0":
-          description: '{"code": 0, "msg": "Success","data": { "list": [],"total": 0 } }'
+          description: '{"code": 0, "msg": "success","data": { "list": [],"total":
+            0 } }'
           schema:
             allOf:
             - $ref: '#/definitions/response.Response'
@@ -433,10 +420,10 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/domain.DepartmentEditRequest'
+          $ref: '#/definitions/domain.DepartmentUpdateRequest'
       responses:
         "0":
-          description: '{"code": 0, "msg":"Success","data": null}'
+          description: '{"code": 0, "msg":"success","data": null}'
           schema:
             $ref: '#/definitions/response.Response'
       security:
@@ -564,7 +551,7 @@ paths:
         in: query
         name: page
         type: integer
-      - description: 每页大小
+      - description: 每页大小 不传默认 20条
         in: query
         name: pageSize
         type: integer
@@ -582,7 +569,8 @@ paths:
         type: string
       responses:
         "0":
-          description: '{"code": 0, "msg": "Success","data": { "list": [],"total": 0 } }'
+          description: '{"code": 0, "msg": "Success","data": { "list": [],"total":
+            0 } }'
           schema:
             allOf:
             - $ref: '#/definitions/response.Response'

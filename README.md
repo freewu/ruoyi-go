@@ -17,6 +17,14 @@
 * [待实现]代码生成：前后端代码的生成。
 * [待实现]服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
 
+# 项目启动
+```bash
+# 启动
+
+  go run main.go
+
+```
+
 # 使用组件
 ```
 github.com/gin-gonic/gin 路由分发
@@ -34,4 +42,9 @@ swag init -o ./app/swagger
 
 # 访问
 http://127.0.0.1:8080/swagger.json
+```
+
+# swag 安装
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
 ```

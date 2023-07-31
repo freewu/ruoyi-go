@@ -28,13 +28,13 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.DepartmentAddRequest"
+                            "$ref": "#/definitions/domain.DepartmentCreateRequest"
                         }
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
+                        "description": "{\"code\": 0, \"msg\":\"success\",\"data\": null}",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -67,7 +67,7 @@
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
+                        "description": "{\"code\": 0, \"msg\":\"success\",\"data\": null}",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -98,7 +98,7 @@
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": {}}",
+                        "description": "{\"code\": 0, \"msg\":\"success\",\"data\": {}}",
                         "schema": {
                             "allOf": [
                                 {
@@ -144,27 +144,27 @@
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "description": "邮箱",
-                        "name": "email",
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "idIn",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "idNotIn",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "关键字",
                         "name": "keyword",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "负责人",
-                        "name": "leader",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "联系电话",
-                        "name": "mobile",
                         "in": "query"
                     },
                     {
@@ -187,7 +187,7 @@
                     },
                     {
                         "type": "integer",
-                        "description": "每页大小",
+                        "description": "每页大小 不传默认 20条",
                         "name": "pageSize",
                         "in": "query"
                     },
@@ -195,6 +195,15 @@
                         "type": "integer",
                         "description": "父部门ID",
                         "name": "parentID",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "collectionFormat": "csv",
+                        "name": "parentIDIn",
                         "in": "query"
                     },
                     {
@@ -212,7 +221,7 @@
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 0, \"msg\": \"Success\",\"data\": { \"list\": [],\"total\": 0 } }",
+                        "description": "{\"code\": 0, \"msg\": \"success\",\"data\": { \"list\": [],\"total\": 0 } }",
                         "schema": {
                             "allOf": [
                                 {
@@ -266,13 +275,13 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.DepartmentEditRequest"
+                            "$ref": "#/definitions/domain.DepartmentUpdateRequest"
                         }
                     }
                 ],
                 "responses": {
                     "0": {
-                        "description": "{\"code\": 0, \"msg\":\"Success\",\"data\": null}",
+                        "description": "{\"code\": 0, \"msg\":\"success\",\"data\": null}",
                         "schema": {
                             "$ref": "#/definitions/response.Response"
                         }
@@ -482,7 +491,7 @@
                     },
                     {
                         "type": "integer",
-                        "description": "每页大小",
+                        "description": "每页大小 不传默认 20条",
                         "name": "pageSize",
                         "in": "query"
                     },
@@ -588,26 +597,14 @@
                     "type": "string"
                 },
                 "createBy": {
-                    "description": "DeleteFlag\tuint\t`json:\"deleteFlag\" form:\"deleteFlag\" gorm:\"type:tinyint(3);default:0;comment:删除标志（0代表存在 2代表删除）\"` // 删除标志（0代表存在 2代表删除）",
+                    "description": "创建者",
                     "type": "string"
                 },
                 "createdAt": {
                     "type": "string"
                 },
-                "email": {
-                    "description": "邮箱",
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
-                },
-                "leader": {
-                    "description": "负责人",
-                    "type": "string"
-                },
-                "mobile": {
-                    "description": "联系电话",
-                    "type": "string"
                 },
                 "name": {
                     "description": "部门名称",
@@ -622,7 +619,7 @@
                     "type": "integer"
                 },
                 "status": {
-                    "description": "部门状态（0正常 1停用）",
+                    "description": "Leader\t\tuint\t`json:\"leader\" form:\"leader\" gorm:\"type:int(10);default:0;comment:负责人\"` // 负责人 对应用户表中用户",
                     "type": "integer"
                 },
                 "updateBy": {
@@ -634,7 +631,7 @@
                 }
             }
         },
-        "domain.DepartmentAddRequest": {
+        "domain.DepartmentCreateRequest": {
             "type": "object",
             "required": [
                 "name"
@@ -642,18 +639,6 @@
             "properties": {
                 "ancestors": {
                     "description": "祖级列表",
-                    "type": "string"
-                },
-                "email": {
-                    "description": "邮箱",
-                    "type": "string"
-                },
-                "leader": {
-                    "description": "负责人",
-                    "type": "string"
-                },
-                "mobile": {
-                    "description": "联系电话",
                     "type": "string"
                 },
                 "name": {
@@ -669,12 +654,12 @@
                     "type": "integer"
                 },
                 "status": {
-                    "description": "部门状态（0正常 1停用）",
+                    "description": "Leader\t\tuint\t`json:\"leader\" form:\"leader\" gorm:\"type:int(10);default:0;comment:负责人\"` // 负责人 对应用户表中用户",
                     "type": "integer"
                 }
             }
         },
-        "domain.DepartmentEditRequest": {
+        "domain.DepartmentUpdateRequest": {
             "type": "object",
             "required": [
                 "id",
@@ -685,21 +670,9 @@
                     "description": "祖级列表",
                     "type": "string"
                 },
-                "email": {
-                    "description": "邮箱",
-                    "type": "string"
-                },
                 "id": {
                     "description": "主键ID",
                     "type": "integer"
-                },
-                "leader": {
-                    "description": "负责人",
-                    "type": "string"
-                },
-                "mobile": {
-                    "description": "联系电话",
-                    "type": "string"
                 },
                 "name": {
                     "description": "部门名称",
@@ -714,7 +687,7 @@
                     "type": "integer"
                 },
                 "status": {
-                    "description": "部门状态（0正常 1停用）",
+                    "description": "Leader\t\tuint\t`json:\"leader\" form:\"leader\" gorm:\"type:int(10);default:0;comment:负责人\"` // 负责人 对应用户表中用户",
                     "type": "integer"
                 }
             }
@@ -924,9 +897,7 @@
         "response.PageResult": {
             "type": "object",
             "properties": {
-                "list": {
-                    "type": "object"
-                },
+                "list": {},
                 "page": {
                     "type": "integer"
                 },
@@ -947,8 +918,7 @@
                     "example": 0
                 },
                 "data": {
-                    "description": "数据集",
-                    "type": "object"
+                    "description": "数据集"
                 },
                 "msg": {
                     "description": "消息",

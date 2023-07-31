@@ -4,7 +4,7 @@ service:
 database:
   admin:
     type: mysql
-    dsn: root:root@tcp(192.168.150.129:3306)/ruoyi?charset=utf8mb4&parseTime=True&loc=Local
+    dsn: root:123456@tcp(192.168.5.132:3306)/ruoyi?charset=utf8mb4&parseTime=True&loc=Local
     prefix: ry_ # 表前缀
     max-idle: 10 # 连接池最大闲置的连接数
     max-open: 10 # 连接池最大打开的连接数

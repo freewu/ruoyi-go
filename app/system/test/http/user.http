@@ -1,5 +1,5 @@
-### add
-POST http://127.0.0.1:8080/system/user/add
+### create
+POST http://127.0.0.1:8080/system/user/create
 content-type: application/json
 
 {
@@ -20,7 +20,7 @@ content-type: application/json
 GET http://127.0.0.1:8080/system/user/list?pageSize=1
 
 ### update
-PUT http://127.0.0.1:8080/system/user/edit
+PUT http://127.0.0.1:8080/system/user/update
 content-type: application/json
 
 {
@@ -49,15 +49,15 @@ content-type: application/json
 ### detail
 GET http://127.0.0.1:8080/system/user/detail?id=1
 
-### validate add empty
-POST http://127.0.0.1:8080/system/user/add
+### validate create empty
+POST http://127.0.0.1:8080/system/user/create
 content-type: application/json
 
 {
 }
 
 ### validate update empty
-PUT http://127.0.0.1:8080/system/user/edit
+PUT http://127.0.0.1:8080/system/user/update
 content-type: application/json
 
 {
