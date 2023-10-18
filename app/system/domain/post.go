@@ -7,12 +7,24 @@ import (
 
 // 职位 model
 type Post struct {
-	core.Model
+	//core.Model
+	ID uint `json:"id" form:"id" gorm:"column:post_id;type:bigint(20);primary_key;autoIncrement;not null;comment:岗位ID"` // 岗位ID
 
 	PostBase
 }
 
+// TableName 指定表名
+func (m *Post) TableName() string {
+	return "sys_post"
+}
+
 type PostBase struct {
+	Code   string `json:"code" form:"code" validate:"required" gorm:"column:post_code;type:varchar(64);not null;comment:岗位编码"` // 岗位编码
+	Name   string `json:"name" form:"name" validate:"required" gorm:"column:post_name;type:varchar(50);not null;comment:岗位名称"` // 岗位名称
+	Sort   uint   `json:"sort" form:"sort" gorm:"column:post_sort;type:int(11);not null;comment:显示顺序"`                         // 显示顺序
+	Status uint   `json:"status" form:"status" gorm:"column:status;type:char(1);not null;comment:状态(0正常 1停用)"`                 // 状态（0正常 1停用）
+
+	core.RuoyiModel
 }
 
 /*
@@ -31,13 +43,12 @@ CREATE TABLE `sys_post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='岗位信息表';
 */
 
-
 // 后台职位搜索请求结构体
 type PostSearchRequest struct {
 	request.PageInfo
 	request.SortInfo
 
-	Keyword			string 	`form:"keyword"` // 关键字
+	Keyword string `form:"keyword"` // 关键字
 }
 
 type PostAddRequest struct {
