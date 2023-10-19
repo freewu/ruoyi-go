@@ -45,17 +45,17 @@ type UserSearchRequest struct {
 	request.PageInfo
 	request.SortInfo
 
-	Keyword      string `form:"keyword"`      // 关键字
-	Username     string `form:"username"`     // 用户名
-	Mobile       string `form:"mobile"`       // 手机号
-	Email        string `form:"email"`        // 登录邮箱
-	Nickname     string `form:"nickname"`     // 用户昵称
-	Remark       string `form:"remark"`       // 备注
-	LastLoginIP  string `form:"lastLoginIP"`  // 最后登录IP
-	Status       *uint  `form:"status"`       // 用户状态;0:禁用,1:正常,2:未验证
-	Gender       *uint  `form:"gender"`       // 性别;0:保密,1:男,2:女
-	IsAdmin      *bool  `form:"isAdmin"`      // 是否后台管理员 1 是  0 否
-	DepartmentID *uint  `form:"departmentID"` // 部门ID
+	Keyword      string `json:"keyword" form:"keyword"`           // 关键字
+	Username     string `json:"username" form:"username"`         // 用户名
+	Mobile       string `json:"mobile" form:"mobile"`             // 手机号
+	Email        string `json:"email" form:"email"`               // 登录邮箱
+	Nickname     string `json:"nickname" form:"nickname"`         // 用户昵称
+	Remark       string `json:"remark" form:"remark"`             // 备注
+	LastLoginIP  string `json:"lastLoginIP" form:"lastLoginIP"`   // 最后登录IP
+	Status       *uint  `json:"status" form:"status"`             // 用户状态;0:禁用,1:正常,2:未验证
+	Gender       *uint  `json:"gender" form:"gender"`             // 性别;0:保密,1:男,2:女
+	IsAdmin      *bool  `json:"isAdmin" form:"isAdmin"`           // 是否后台管理员 1 是  0 否
+	DepartmentID *uint  `json:"departmentID" form:"departmentID"` // 部门ID
 
 	DateColumn string `form:"dateColumn"`                                     // 搜索时间字段 lastLoginTime 最后登录时间 | registerTime 注册时间
 	BeginTime  string `form:"beginTime" validate:"omitempty,datetime-format"` // 开始时间 格式:yyyy-mm-dd hh:ii:ss
