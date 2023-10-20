@@ -1,0 +1,36 @@
+### list default
+GET http://127.0.0.1:8080/system/post/list
+
+### create empty
+POST http://127.0.0.1:8080/system/post/create
+content-type: application/json
+
+{
+}
+
+### create empty name
+POST http://127.0.0.1:8080/system/post/create
+content-type: application/json
+
+{
+  "code": "code",
+  "name": ""
+}
+
+### create empty code
+POST http://127.0.0.1:8080/system/post/create
+content-type: application/json
+
+{
+  "name": "name",
+  "code": ""
+}
+
+### create success
+POST http://127.0.0.1:8080/system/post/create
+content-type: application/json
+
+{
+  "name": "post-name",
+  "code": "post-code"
+}

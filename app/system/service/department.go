@@ -8,8 +8,9 @@ import (
 	"strings"
 )
 
-type Department struct {}
+type Department struct{}
 
+// GetList
 //@author: [bluefrog](https://github.com/freewu)
 //@function: GetList
 //@description: 获取部门列表数据
@@ -19,7 +20,7 @@ func (s Department) GetList(searchParams *domain.DepartmentSearchRequest) (err e
 	// 创建db
 	db := domain.DB.Model(&domain.Department{})
 	// 条件过滤
-	db = s.parseFilter(db,searchParams)
+	db = s.parseFilter(db, searchParams)
 	// 统计数据
 	err = db.Count(&total).Error
 	// 如果数据 0,也没有必要处理以下动作了
@@ -62,24 +63,24 @@ func (s Department) parseFilter(db *gorm.DB, searchParams *domain.DepartmentSear
 		db = db.Where("id IN (?)", searchParams.IDIn)
 	}
 	if searchParams.Name != "" { // 部门名称
-		db = db.Where("name like ?", "%" + searchParams.Name + "%")
+		db = db.Where("name like ?", "%"+searchParams.Name+"%")
 	}
 	if searchParams.Ancestors != "" { // 祖级列表
-		db = db.Where("ancestors LIKE ?", "%" + searchParams.Ancestors + "%")
+		db = db.Where("ancestors LIKE ?", "%"+searchParams.Ancestors+"%")
 	}
-	if searchParams.Status !=  nil { // 部门状态（0正常 1停用）
+	if searchParams.Status != nil { // 部门状态（0正常 1停用）
 		db = db.Where("status = ?", searchParams.Status)
 	}
 	if searchParams.CreateBy != "" { // 创建者
-		db = db.Where("create_by LIKE ?", "%" + searchParams.CreateBy + "%")
+		db = db.Where("create_by LIKE ?", "%"+searchParams.CreateBy+"%")
 	}
 	if searchParams.UpdateBy != "" { // 更新者
-		db = db.Where("update_by LIKE ?", "%" + searchParams.UpdateBy + "%")
+		db = db.Where("update_by LIKE ?", "%"+searchParams.UpdateBy+"%")
 	}
 	if searchParams.Keyword != "" { // 关键词
-		k1 := strings.Trim(searchParams.Keyword," \t\r\n")
+		k1 := strings.Trim(searchParams.Keyword, " \t\r\n")
 		k := "%" + k1 + "%"
-		db = db.Where("(name LIKE ?  )",k)
+		db = db.Where("(name LIKE ?  )", k)
 	}
 	return db
 }
@@ -91,7 +92,7 @@ func (s Department) parseFilter(db *gorm.DB, searchParams *domain.DepartmentSear
 //@return: error
 func (s Department) Create(data *domain.DepartmentCreateRequest) error {
 	// 判断部门名称是否唯一
-	if s.IsExist(data.Name,nil) {
+	if s.IsExist(data.Name, nil) {
 		return errors.New("已存在相同的部门名称")
 	}
 	department := new(domain.Department)
@@ -114,7 +115,7 @@ func (s Department) Create(data *domain.DepartmentCreateRequest) error {
 //@return: err error
 func (s Department) Update(data *domain.DepartmentUpdateRequest) (err error) {
 	// 判断名字是否唯一
-	if s.IsExist(data.Name,&[]uint{ data.ID }) {
+	if s.IsExist(data.Name, &[]uint{data.ID}) {
 		return errors.New("已存在相同的部门名称")
 	}
 	record := make(map[string]interface{})
@@ -149,7 +150,7 @@ func (s Department) UpdateByMap(id uint, updateMap map[string]interface{}) (err 
 //@return: err error
 func (s Department) Delete(ids []uint) (err error) {
 	// 删除区域
-	if err = domain.DB.Where("id in (?) ",ids).Unscoped().Delete(&domain.Department{}).Error; err != nil {
+	if err = domain.DB.Where("id in (?) ", ids).Unscoped().Delete(&domain.Department{}).Error; err != nil {
 		return err
 	}
 	return nil
@@ -175,11 +176,11 @@ func (s Department) Detail(id uint) (*domain.Department, error) {
 //@param: name string 区域类型名称
 //@param: excludeIds *[]uint 不包含的区域类型ID
 //@return: err error
-func (s Department)IsExist(name string,excludeIds *[]uint) bool {
+func (s Department) IsExist(name string, excludeIds *[]uint) bool {
 	// 判断名字是否唯一
 	var filter = &domain.DepartmentSearchRequest{
-		Name: name,
-		PageInfo: request.PageInfo{ PageSize: 1 },
+		Name:     name,
+		PageInfo: request.PageInfo{PageSize: 1},
 	}
 	if excludeIds != nil {
 		filter.IDNotIn = *excludeIds

@@ -27,35 +27,30 @@ type PostBase struct {
 	core.RuoyiModel
 }
 
-/*
-CREATE TABLE `sys_post` (
-  `post_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
-  `post_code` varchar(64) NOT NULL COMMENT '岗位编码',
-  `post_name` varchar(50) NOT NULL COMMENT '岗位名称',
-  `post_sort` int(11) NOT NULL COMMENT '显示顺序',
-  `status` char(1) NOT NULL COMMENT '状态（0正常 1停用）',
-  `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`post_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='岗位信息表';
-*/
-
-// 后台职位搜索请求结构体
+// PostSearchRequest 后台职位搜索请求结构体
 type PostSearchRequest struct {
 	request.PageInfo
 	request.SortInfo
 
-	Keyword string `form:"keyword"` // 关键字
+	Keyword string `json:"keyword" form:"keyword"` // 关键字
+	Code    string `json:"code" form:"code"`       // 岗位编码
+	Name    string `json:"name" form:"name"`       // 岗位编码
+	ID      *uint  `json:"id" form:"id"`           // 岗位编号
+	Status  *uint  `json:"status" form:"status"`   // 状态
+
+	IDNotIn []uint `json:"idNotIn"` // 不包含的ID列表
+	IDIn    []uint `json:"idIn"`    // 包含的ID列表
+
+	core.RouyiSearchRequest
 }
 
-type PostAddRequest struct {
+// PostCreateRequest 职位添加请求结构体
+type PostCreateRequest struct {
 	PostBase
 }
 
-type PostEditRequest struct {
+// PostUpdateRequest 职位编辑请求结构体
+type PostUpdateRequest struct {
 	request.GetById
 	PostBase
 }

@@ -16,6 +16,7 @@ var (
 	post = service.Post{}
 )
 
+// List 获取职位列表
 // @Summary 获取职位列表
 // @Description 职位列表
 // @Tags 职位管理
@@ -35,7 +36,7 @@ func (u *Post) List(c *gin.Context) {
 		response.Fail(-1, err.Error(), c)
 		return
 	}
-	err, list, total := Post.GetList(&searchParams)
+	err, list, total := post.GetList(&searchParams)
 	if err != nil {
 		response.Fail(-1, err.Error(), c)
 		return
@@ -48,6 +49,7 @@ func (u *Post) List(c *gin.Context) {
 	}, c)
 }
 
+// Create 添加职位
 // @Summary 添加职位
 // @Description 添加职位
 // @Tags 职位管理
@@ -67,13 +69,14 @@ func (u *Post) Create(c *gin.Context) {
 		response.Fail(-1, err.Error(), c)
 		return
 	}
-	if err := Post.Create(data); err != nil {
+	if err := post.Create(data); err != nil {
 		response.Fail(-1, "添加失败: "+err.Error(), c)
 	} else {
 		response.Success("添加成功", c)
 	}
 }
 
+// Update 修改职位
 // @Summary 修改职位
 // @Description 修改职位
 // @Tags 职位管理
@@ -93,13 +96,14 @@ func (u *Post) Update(c *gin.Context) {
 		response.Fail(-1, err.Error(), c)
 		return
 	}
-	if err := Post.Update(data); err != nil {
+	if err := post.Update(data); err != nil {
 		response.Fail(-1, "修改失败: "+err.Error(), c)
 	} else {
 		response.Success("修改成功", c)
 	}
 }
 
+// Delete 删除职位
 // @Summary 删除职位
 // @Description 删除职位
 // @Tags 职位管理
@@ -118,16 +122,7 @@ func (u *Post) Delete(c *gin.Context) {
 		response.Fail(-1, "参数不能为空", c)
 		return
 	}
-	// 如果有子职位存在，禁止删除,需要先删除完子职位
-	_, _, total := Post.GetList(&domain.PostSearchRequest{
-		ParentIDIn: data.Ids,
-		PageInfo:   request.PageInfo{PageSize: 1},
-	})
-	if total > 0 {
-		response.Fail(-1, "存在子职位，禁止删除", c)
-		return
-	}
-	err := Post.Delete(data.Ids)
+	err := post.Delete(data.Ids)
 	if err != nil {
 		response.Fail(-1, "删除失败: "+err.Error(), c)
 		return
@@ -135,6 +130,7 @@ func (u *Post) Delete(c *gin.Context) {
 	response.Success("删除成功", c)
 }
 
+// Detail 获取指定ID的职位详情
 // @Summary 获取指定ID的职位详情
 // @Description 获取指定ID的职位详情
 // @Tags 职位管理
@@ -153,7 +149,7 @@ func (u *Post) Detail(c *gin.Context) {
 		response.Fail(-1, err.Error(), c)
 		return
 	}
-	record, err := Post.Detail(param.ID)
+	record, err := post.Detail(param.ID)
 	if err != nil {
 		response.Fail(-1, err.Error(), c)
 		return
