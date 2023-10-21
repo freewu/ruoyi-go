@@ -1,6 +1,15 @@
 ### list default
 GET http://127.0.0.1:8080/system/post/list
 
+### list search by keyword
+GET http://127.0.0.1:8080/system/post/list?keyword=职位
+
+### list search by status = 1
+GET http://127.0.0.1:8080/system/post/list?status=1
+
+### list search by status = 0
+GET http://127.0.0.1:8080/system/post/list?status=0
+
 ### create empty
 POST http://127.0.0.1:8080/system/post/create
 content-type: application/json
@@ -33,4 +42,96 @@ content-type: application/json
 {
   "name": "post-name",
   "code": "post-code"
+}
+
+### create success 1
+POST http://127.0.0.1:8080/system/post/create
+content-type: application/json
+
+{
+  "name": "post-name-1",
+  "code": "post-code-1"
+}
+
+### update empty
+PUT http://127.0.0.1:8080/system/post/update
+content-type: application/json
+
+{
+}
+
+### update empty id
+PUT http://127.0.0.1:8080/system/post/update
+content-type: application/json
+
+{
+  "id": 0,
+  "name": "职位名称"
+}
+
+### update empty name
+PUT http://127.0.0.1:8080/system/post/update
+content-type: application/json
+
+{
+  "id": 1,
+  "code": "post-code",
+  "name": ""
+}
+
+### update empty code
+PUT http://127.0.0.1:8080/system/post/update
+content-type: application/json
+
+{
+  "id": 1,
+  "code": "",
+  "name": "职位名称"
+}
+
+### update success
+PUT http://127.0.0.1:8080/system/post/update
+content-type: application/json
+
+{
+  "id": 1,
+  "code": "post-code",
+  "name": "职位名称",
+  "status": 1,
+  "sort": 99
+}
+
+### detail empty
+GET http://127.0.0.1:8080/system/post/detail
+
+### detail empty id
+GET http://127.0.0.1:8080/system/post/detail?id=
+
+### detail not exist data
+GET http://127.0.0.1:8080/system/post/detail?id=99999
+
+### detail sucess
+GET http://127.0.0.1:8080/system/post/detail?id=1
+
+### delete empty
+DELETE http://127.0.0.1:8080/system/post/delete
+content-type: application/json
+
+{
+}
+
+### delete empty ids
+DELETE http://127.0.0.1:8080/system/post/delete
+content-type: application/json
+
+{
+  "ids": []
+}
+
+### delete success
+DELETE http://127.0.0.1:8080/system/post/delete
+content-type: application/json
+
+{
+  "ids": [1]
 }

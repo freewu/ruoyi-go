@@ -11,6 +11,22 @@ import (
 
 type Post struct{}
 
+// GetCount 获取职位列表数据数量
+//@author: [bluefrog](https://github.com/freewu)
+//@function: GetCount
+//@description: 获取职位列表数据数量
+//@param: searchParams *domain.PostSearchRequest
+//@return: err error, total int64
+func (s Post) GetCount(searchParams *domain.PostSearchRequest) (err error, total int64) {
+	// 创建db
+	db := domain.DB.Model(&domain.Post{})
+	// 条件过滤
+	db = s.parseFilter(db, searchParams)
+	// 统计数据
+	err = db.Count(&total).Error
+	return err, total
+}
+
 // GetList 获取职位列表数据
 //@author: [bluefrog](https://github.com/freewu)
 //@function: GetList
@@ -28,7 +44,7 @@ func (s Post) GetList(searchParams *domain.PostSearchRequest) (err error, list [
 	if total > 0 {
 		// 排序
 		// orderBy := "id desc"
-		db.Order("id desc")
+		db.Order("post_id desc")
 		if searchParams.OrderBy != "" {
 			db.Order(searchParams.OrderBy)
 		}
@@ -61,7 +77,10 @@ func (s Post) parseFilter(db *gorm.DB, searchParams *domain.PostSearchRequest) *
 		db = db.Where("post_id NOT IN (?)", searchParams.IDNotIn)
 	}
 	if searchParams.Name != "" { // 职位名称
-		db = db.Where("post_name like ?", "%"+searchParams.Name+"%")
+		db = db.Where("post_name = ?", searchParams.Name)
+	}
+	if searchParams.Code != "" { // 职位编码
+		db = db.Where("post_code = ?", searchParams.Code)
 	}
 	if searchParams.Status != nil { // 职位状态（0正常 1停用）
 		db = db.Where("status = ?", searchParams.Status)
@@ -108,6 +127,7 @@ func (s Post) Create(data *domain.PostCreateRequest) error {
 	return domain.DB.Create(&post).Error
 }
 
+// Update 修改职业
 //@author: [bluefrog](https://github.com/freewu)
 //@function: Update
 //@description: 修改职业
@@ -127,6 +147,7 @@ func (s Post) Update(data *domain.PostUpdateRequest) (err error) {
 	record["Code"] = data.Code
 	record["Status"] = data.Status
 	record["UpdateBy"] = "" // todo 通过登录服务获取
+	record["UpdateTime"] = time.Now()
 
 	return s.UpdateByMap(data.ID, record)
 }
