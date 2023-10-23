@@ -5,7 +5,7 @@ import (
 	"ruoyi-go/common/model/request"
 )
 
-// 职位 model
+// Post 职位 model
 type Post struct {
 	//core.Model
 	ID uint `json:"id" form:"id" gorm:"column:post_id;type:bigint(20) auto_increment;primary_key;not null;comment:岗位ID"` // 岗位ID
