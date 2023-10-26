@@ -92,9 +92,8 @@ func (s Post) parseFilter(db *gorm.DB, searchParams *domain.PostSearchRequest) *
 		db = db.Where("update_by LIKE ?", "%"+searchParams.UpdateBy+"%")
 	}
 	if searchParams.Keyword != "" { // 关键词
-		k1 := strings.Trim(searchParams.Keyword, " \t\r\n")
-		k := "%" + k1 + "%"
-		db = db.Where("(`post_name` LIKE ? OR `post_code` LIKE ? OR `post_id` = ? )", k, k, k)
+		k := strings.Trim(searchParams.Keyword, " \t\r\n")
+		db = db.Where("(`post_name` LIKE '%?%` OR `post_code` LIKE '%?%' OR `post_id` = ? )", k, k, k)
 	}
 	return db
 }
@@ -127,10 +126,10 @@ func (s Post) Create(data *domain.PostCreateRequest) error {
 	return domain.DB.Create(&post).Error
 }
 
-// Update 修改职业
+// Update 修改职位
 //@author: [bluefrog](https://github.com/freewu)
 //@function: Update
-//@description: 修改职业
+//@description: 修改职位
 //@param: data *model.PostEditRequest
 //@return: err error
 func (s Post) Update(data *domain.PostUpdateRequest) (err error) {
@@ -210,7 +209,7 @@ func (s Post) NameIsExist(name string, excludeIds *[]uint) bool {
 	if excludeIds != nil {
 		filter.IDNotIn = *excludeIds
 	}
-	_, _, total := s.GetList(filter)
+	_, total := s.GetCount(filter)
 	return total > 0
 }
 
@@ -230,6 +229,6 @@ func (s Post) CodeIsExist(code string, excludeIds *[]uint) bool {
 	if excludeIds != nil {
 		filter.IDNotIn = *excludeIds
 	}
-	_, _, total := s.GetList(filter)
+	_, total := s.GetCount(filter)
 	return total > 0
 }

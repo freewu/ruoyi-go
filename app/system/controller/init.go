@@ -29,6 +29,14 @@ func InitRouter(r *gin.Engine) {
 		group.DELETE("/post/delete", post.Delete)
 		group.GET("/post/detail", post.Detail)
 
+		// 公告相关接口
+		notice := Notice{}
+		group.GET("/notice/list", notice.List)
+		group.POST("/notice/create", notice.Create)
+		group.PUT("/notice/update", notice.Update)
+		group.DELETE("/notice/delete", notice.Delete)
+		group.GET("/notice/detail", notice.Detail)
+
 		// 角色相关接口
 
 		//
