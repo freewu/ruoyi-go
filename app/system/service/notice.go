@@ -77,10 +77,10 @@ func (s Notice) parseFilter(db *gorm.DB, searchParams *domain.NoticeSearchReques
 		db = db.Where("notice_id NOT IN (?)", searchParams.IDNotIn)
 	}
 	if searchParams.Title != "" { // 公告标题
-		db = db.Where("notice_title like '%?%'", searchParams.Title)
+		db = db.Where("notice_title like ?", "%"+searchParams.Title+"%")
 	}
 	if searchParams.Content != "" { // 公告内容
-		db = db.Where("notice_content = like '%?%'", searchParams.Content)
+		db = db.Where("notice_content like ?", "%"+searchParams.Content+"%")
 	}
 	if searchParams.Type != nil { // 公告类型（1通知 2公告）
 		db = db.Where("notice_type = ?", searchParams.Type)
@@ -96,7 +96,9 @@ func (s Notice) parseFilter(db *gorm.DB, searchParams *domain.NoticeSearchReques
 	}
 	if searchParams.Keyword != "" { // 关键词
 		k := strings.Trim(searchParams.Keyword, " \t\r\n")
-		db = db.Where("(`notice_title` LIKE '%?%' OR `notice_content` LIKE '%?%' OR `notice_id` = ? )", k, k, k)
+		k1 := "%" + k + "%"
+		db = db.Where("(`notice_title` LIKE ? OR `notice_content` LIKE ? OR `notice_id` = ? )", k1, k1, k)
+		//db = db.Where("(`notice_title` LIKE '%?%' OR `notice_content` LIKE '%?%' OR `notice_id` = ? )", k, k, k)
 	}
 	return db
 }

@@ -1,0 +1,158 @@
+### list default
+GET http://127.0.0.1:8080/system/notice/list
+
+### list search by keyword
+GET http://127.0.0.1:8080/system/notice/list?keyword=titl
+
+### list search by keyword
+GET http://127.0.0.1:8080/system/notice/list?keyword=1
+
+### list search by keyword return null
+GET http://127.0.0.1:8080/system/notice/list?keyword=aaa
+
+### list search by status = 1
+GET http://127.0.0.1:8080/system/notice/list?status=1
+
+### list search by status = 0
+GET http://127.0.0.1:8080/system/notice/list?status=0
+
+### list search by type = 1
+GET http://127.0.0.1:8080/system/notice/list?type=1
+
+### list search by type = 0
+GET http://127.0.0.1:8080/system/notice/list?type=0
+
+### list search by title
+GET http://127.0.0.1:8080/system/notice/list?title=le-2
+
+### list search by content
+GET http://127.0.0.1:8080/system/notice/list?content=tent-1
+
+### create empty
+POST http://127.0.0.1:8080/system/notice/create
+content-type: application/json
+
+{
+}
+
+### create empty title
+POST http://127.0.0.1:8080/system/notice/create
+content-type: application/json
+
+{
+  "content": "content",
+  "title": ""
+}
+
+### create empty content
+POST http://127.0.0.1:8080/system/notice/create
+content-type: application/json
+
+{
+  "title": "title",
+  "content": ""
+}
+
+### create success
+POST http://127.0.0.1:8080/system/notice/create
+content-type: application/json
+
+{
+  "title": "title-1",
+  "content": "content-1"
+}
+
+### create success 1
+POST http://127.0.0.1:8080/system/notice/create
+content-type: application/json
+
+{
+  "title": "title-2",
+  "content": "content-2"
+}
+
+### update empty
+PUT http://127.0.0.1:8080/system/notice/update
+content-type: application/json
+
+{
+}
+
+### update empty id
+PUT http://127.0.0.1:8080/system/notice/update
+content-type: application/json
+
+{
+  "id": 0,
+  "title": "标题"
+}
+
+### update empty title
+PUT http://127.0.0.1:8080/system/notice/update
+content-type: application/json
+
+{
+  "id": 1,
+  "content": "notice-content",
+  "title": ""
+}
+
+### update empty content
+PUT http://127.0.0.1:8080/system/notice/update
+content-type: application/json
+
+{
+  "id": 1,
+  "content": "",
+  "title": "标题"
+}
+
+### update success
+PUT http://127.0.0.1:8080/system/notice/update
+content-type: application/json
+
+{
+  "id": 1,
+  "content": "内容",
+  "title": "标题",
+  "status": 0,
+  "type": 1
+}
+
+### detail empty
+GET http://127.0.0.1:8080/system/notice/detail
+
+### detail empty id
+GET http://127.0.0.1:8080/system/notice/detail?id=
+
+### detail not exist data
+GET http://127.0.0.1:8080/system/notice/detail?id=99999
+
+### detail success
+GET http://127.0.0.1:8080/system/notice/detail?id=1
+
+### delete empty
+DELETE http://127.0.0.1:8080/system/notice/delete
+content-type: application/json
+
+{
+}
+
+### delete empty ids
+DELETE http://127.0.0.1:8080/system/notice/delete
+content-type: application/json
+
+{
+  "ids": []
+}
+
+### delete success
+DELETE http://127.0.0.1:8080/system/notice/delete
+content-type: application/json
+
+{
+  "ids": [2]
+}
+
+### check delete
+GET http://127.0.0.1:8080/system/notice/detail?id=2

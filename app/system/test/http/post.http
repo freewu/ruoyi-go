@@ -13,6 +13,15 @@ GET http://127.0.0.1:8080/system/post/list?status=1
 ### list search by status = 0
 GET http://127.0.0.1:8080/system/post/list?status=0
 
+### list search by code
+GET http://127.0.0.1:8080/system/post/list?code=post-code-1
+
+### list search by name
+GET http://127.0.0.1:8080/system/post/list?name=职位名称
+
+### list search by id
+GET http://127.0.0.1:8080/system/post/list?id=3
+
 ### create empty
 POST http://127.0.0.1:8080/system/post/create
 content-type: application/json
