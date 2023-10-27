@@ -93,7 +93,9 @@ func (s Post) parseFilter(db *gorm.DB, searchParams *domain.PostSearchRequest) *
 	}
 	if searchParams.Keyword != "" { // 关键词
 		k := strings.Trim(searchParams.Keyword, " \t\r\n")
-		db = db.Where("(`post_name` LIKE '%?%` OR `post_code` LIKE '%?%' OR `post_id` = ? )", k, k, k)
+		k1 := "%" + k + "%"
+		//db = db.Where("(`post_name` LIKE '%?%` OR `post_code` LIKE '%?%' OR `post_id` = ? )", k, k, k)
+		db = db.Where("(`post_name` LIKE ? OR `post_code` LIKE ? OR `post_id` = ? )", k1, k1, k)
 	}
 	return db
 }
@@ -117,6 +119,7 @@ func (s Post) Create(data *domain.PostCreateRequest) error {
 	post.Code = data.Code
 	post.Name = data.Name
 	post.Status = data.Status
+	post.Sort = data.Sort
 
 	post.CreateBy = "" // todo 通过登录服务获取
 	post.CreateTime = time.Now()
@@ -145,6 +148,7 @@ func (s Post) Update(data *domain.PostUpdateRequest) (err error) {
 	record["Name"] = data.Name
 	record["Code"] = data.Code
 	record["Status"] = data.Status
+	record["Sort"] = data.Sort
 	record["UpdateBy"] = "" // todo 通过登录服务获取
 	record["UpdateTime"] = time.Now()
 

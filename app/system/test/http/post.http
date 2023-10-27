@@ -4,6 +4,9 @@ GET http://127.0.0.1:8080/system/post/list
 ### list search by keyword
 GET http://127.0.0.1:8080/system/post/list?keyword=职位
 
+### list search by keyword
+GET http://127.0.0.1:8080/system/post/list?keyword=2
+
 ### list search by status = 1
 GET http://127.0.0.1:8080/system/post/list?status=1
 
@@ -94,10 +97,10 @@ PUT http://127.0.0.1:8080/system/post/update
 content-type: application/json
 
 {
-  "id": 1,
-  "code": "post-code",
+  "id": 3,
+  "code": "post-code-3",
   "name": "职位名称",
-  "status": 1,
+  "status": 0,
   "sort": 99
 }
 
@@ -111,7 +114,7 @@ GET http://127.0.0.1:8080/system/post/detail?id=
 GET http://127.0.0.1:8080/system/post/detail?id=99999
 
 ### detail sucess
-GET http://127.0.0.1:8080/system/post/detail?id=1
+GET http://127.0.0.1:8080/system/post/detail?id=3
 
 ### delete empty
 DELETE http://127.0.0.1:8080/system/post/delete
