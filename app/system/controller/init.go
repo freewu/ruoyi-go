@@ -37,6 +37,14 @@ func InitRouter(r *gin.Engine) {
 		group.DELETE("/notice/delete", notice.Delete)
 		group.GET("/notice/detail", notice.Detail)
 
+		// 系统参数相关接口
+		config := Config{}
+		group.GET("/config/list", config.List)
+		group.POST("/config/create", config.Create)
+		group.PUT("/config/update", config.Update)
+		group.DELETE("/config/delete", config.Delete)
+		group.GET("/config/detail", config.Detail)
+
 		// 角色相关接口
 
 		//
