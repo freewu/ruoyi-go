@@ -1,0 +1,198 @@
+### list default
+GET http://127.0.0.1:8080/system/config/list
+
+### list search by keyword
+GET http://127.0.0.1:8080/system/config/list?keyword=e-1
+
+### list search by keyword
+GET http://127.0.0.1:8080/system/config/list?keyword=2
+
+### list search by type = Y
+GET http://127.0.0.1:8080/system/config/list?type=Y
+
+### list search by type = N
+GET http://127.0.0.1:8080/system/config/list?type=N
+
+### list search by key
+GET http://127.0.0.1:8080/system/config/list?key=key-1
+
+### list search by name
+GET http://127.0.0.1:8080/system/config/list?name=name
+
+### list search by id
+GET http://127.0.0.1:8080/system/config/list?id=2
+
+### create empty
+POST http://127.0.0.1:8080/system/config/create
+content-type: application/json
+
+{
+}
+
+### create empty name
+POST http://127.0.0.1:8080/system/config/create
+content-type: application/json
+
+{
+  "type": "N",
+  "value": "value",
+  "key": "key",
+  "name": ""
+}
+
+### create empty key
+POST http://127.0.0.1:8080/system/config/create
+content-type: application/json
+
+{
+  "type": "N",
+  "value": "value",
+  "key": "",
+  "name": "name"
+}
+
+
+### create success
+POST http://127.0.0.1:8080/system/config/create
+content-type: application/json
+
+{
+  "type": "N",
+  "value": "value",
+  "key": "key",
+  "name": "name"
+}
+
+### create same name
+POST http://127.0.0.1:8080/system/config/create
+content-type: application/json
+
+{
+  "type": "N",
+  "value": "value",
+  "key": "key-1",
+  "name": "name"
+}
+
+### create same key
+POST http://127.0.0.1:8080/system/config/create
+content-type: application/json
+
+{
+  "type": "N",
+  "value": "value",
+  "key": "key",
+  "name": "name-1"
+}
+
+### create success 1
+POST http://127.0.0.1:8080/system/config/create
+content-type: application/json
+
+{
+  "type": "Y",
+  "value": "value-1",
+  "key": "key-1",
+  "name": "name-1"
+}
+
+### update empty
+PUT http://127.0.0.1:8080/system/config/update
+content-type: application/json
+
+{
+}
+
+### update empty id
+PUT http://127.0.0.1:8080/system/config/update
+content-type: application/json
+
+{
+  "id": 0,
+  "type": "Y",
+  "value": "value-1",
+  "key": "key-1",
+  "name": "name-1"
+}
+
+### update empty name
+PUT http://127.0.0.1:8080/system/config/update
+content-type: application/json
+
+{
+  "id": 1,
+  "type": "Y",
+  "value": "value-1",
+  "key": "key-1",
+  "name": ""
+}
+
+### update empty key
+PUT http://127.0.0.1:8080/system/config/update
+content-type: application/json
+
+{
+  "id": 1,
+  "type": "Y",
+  "value": "value-1",
+  "key": "",
+  "name": "name-1"
+}
+
+### update with exist key
+PUT http://127.0.0.1:8080/system/config/update
+content-type: application/json
+
+{
+  "id": 1,
+  "type": "N",
+  "value": "value-aaaa",
+  "key": "key-1",
+  "name": "name-aaa"
+}
+
+### update success
+PUT http://127.0.0.1:8080/system/config/update
+content-type: application/json
+
+{
+  "id": 1,
+  "value": "value-aaaa",
+  "key": "key-aaa",
+  "name": "name-aaa"
+}
+
+### detail empty
+GET http://127.0.0.1:8080/system/config/detail
+
+### detail empty id
+GET http://127.0.0.1:8080/system/config/detail?id=
+
+### detail not exist data
+GET http://127.0.0.1:8080/system/config/detail?id=99999
+
+### detail sucess
+GET http://127.0.0.1:8080/system/config/detail?id=1
+
+### delete empty
+DELETE http://127.0.0.1:8080/system/config/delete
+content-type: application/json
+
+{
+}
+
+### delete empty ids
+DELETE http://127.0.0.1:8080/system/config/delete
+content-type: application/json
+
+{
+  "ids": []
+}
+
+### delete success
+DELETE http://127.0.0.1:8080/system/config/delete
+content-type: application/json
+
+{
+  "ids": [2]
+}
