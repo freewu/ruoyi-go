@@ -1,0 +1,82 @@
+### list default
+GET http://127.0.0.1:8080/system/login-log/list
+
+### list search by login_name
+GET http://127.0.0.1:8080/system/login-log/list?login_name=bluefrog
+
+### list search by ipaddr
+GET http://127.0.0.1:8080/system/login-log/list?ipaddr=127.0.0.1
+
+### list search by login_location
+GET http://127.0.0.1:8080/system/login-log/list?login_location=local
+
+### list search by browser
+GET http://127.0.0.1:8080/system/login-log/list?browser=chrome
+
+### list search by msg
+GET http://127.0.0.1:8080/system/login-log/list?msg=ah
+
+### list search by os
+GET http://127.0.0.1:8080/system/login-log/list?os=win
+
+### list search by module
+GET http://127.0.0.1:8080/system/login-log/list?module=aaa
+
+### list search by keyword
+GET http://127.0.0.1:8080/system/login-log/list?keyword=aa
+
+### list search by status = 0
+GET http://127.0.0.1:8080/system/login-log/list?status=0
+
+### list search by status = 1
+GET http://127.0.0.1:8080/system/login-log/list?status=1
+
+### list search by id
+GET http://127.0.0.1:8080/system/login-log/list?id=2
+
+### list search by begin_date
+GET http://127.0.0.1:8080/system/login-log/list?begin_date=2023-10-31
+
+### list search by begin_date
+GET http://127.0.0.1:8080/system/login-log/list?begin_date=2023-11-01
+
+### list search by end_date
+GET http://127.0.0.1:8080/system/login-log/list?end_date=2023-10-31
+
+### list search by end_date
+GET http://127.0.0.1:8080/system/login-log/list?end_date=2023-10-30
+
+### detail empty
+GET http://127.0.0.1:8080/system/login-log/detail
+
+### detail empty id
+GET http://127.0.0.1:8080/system/login-log/detail?id=
+
+### detail not exist data
+GET http://127.0.0.1:8080/system/login-log/detail?id=99999
+
+### detail sucess
+GET http://127.0.0.1:8080/system/login-log/detail?id=1
+
+### delete empty
+DELETE http://127.0.0.1:8080/system/login-log/delete
+content-type: application/json
+
+{
+}
+
+### delete empty ids
+DELETE http://127.0.0.1:8080/system/login-log/delete
+content-type: application/json
+
+{
+  "ids": []
+}
+
+### delete success
+DELETE http://127.0.0.1:8080/system/login-log/delete
+content-type: application/json
+
+{
+  "ids": [3]
+}

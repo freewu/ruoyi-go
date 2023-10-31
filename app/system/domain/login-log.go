@@ -14,7 +14,7 @@ type LoginLog struct {
 
 // TableName 指定表名
 func (m *LoginLog) TableName() string {
-	return "sys_login_log"
+	return "sys_logininfor"
 }
 
 type LoginLogBase struct {
@@ -27,7 +27,7 @@ type LoginLogBase struct {
 	Module    string `json:"module" form:"module" gorm:"column:module;type:varchar(30);default:'';comment:登录模块"`                         // 登录模块
 	Time      string `json:"login_time" form:"login_time" gorm:"column:login_time;type:bigint(20);default:'0';comment:访问时间 13位时间戳"`      // 访问时间
 
-	Status uint `json:"status" form:"status" gorm:"column:status;type:tinyint(4);default:'0';comment:登录状态（0成功 1失败）"` // 登录状态（0成功 1失败）
+	Status uint `json:"status" form:"status" gorm:"column:status;type:tinyint(4);default:0;comment:登录状态（0成功 1失败）"` // 登录状态（0成功 1失败）
 }
 
 // LoginLogSearchRequest 后台访问日志搜索请求结构体

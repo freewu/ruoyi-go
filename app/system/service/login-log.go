@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"ruoyi-go/app/system/domain"
 	"ruoyi-go/common/lib"
@@ -38,6 +39,9 @@ func (s LoginLog) GetList(searchParams *domain.LoginLogSearchRequest) (err error
 	db = s.parseFilter(db, searchParams)
 	// 统计数据
 	err = db.Count(&total).Error
+	if err != nil {
+		return err, nil, 0
+	}
 	// 如果数据 0,也没有必要处理以下动作了
 	if total > 0 {
 		// 排序
@@ -100,15 +104,19 @@ func (s LoginLog) parseFilter(db *gorm.DB, searchParams *domain.LoginLogSearchRe
 	}
 
 	if searchParams.BeginDate != "" { // 开始时间
-		t, err := lib.StrToTime(searchParams.BeginDate + "00:00:00")
+		t, err := lib.StrToTime(searchParams.BeginDate + " 00:00:00")
 		if err == nil {
 			db = db.Where("login_time >= ?", t)
+		} else {
+			fmt.Printf("error: %v", err)
 		}
 	}
 	if searchParams.EndDate != "" { // 结束时间
 		t, err := lib.StrToTime(searchParams.EndDate + " 23:59:59")
 		if err == nil {
 			db = db.Where("login_time <= ?", t)
+		} else {
+			fmt.Printf("error: %v", err)
 		}
 	}
 

@@ -45,6 +45,12 @@ func InitRouter(r *gin.Engine) {
 		group.DELETE("/config/delete", config.Delete)
 		group.GET("/config/detail", config.Detail)
 
+		// 访问日志相关接口
+		loginLog := LoginLog{}
+		group.GET("/login-log/list", loginLog.List)
+		group.DELETE("/login-log/delete", loginLog.Delete)
+		group.GET("/login-log/detail", loginLog.Detail)
+
 		// 角色相关接口
 
 		//
