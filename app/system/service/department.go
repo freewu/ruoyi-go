@@ -99,7 +99,7 @@ func (s Department) Create(data *domain.DepartmentCreateRequest) error {
 	department.ParentID = data.ParentID
 	department.Name = data.Name
 	department.Ancestors = data.Ancestors
-	department.Order = data.Order
+	department.Sort = data.Sort
 	department.Status = data.Status
 
 	department.CreateBy = "" // todo 通过登录服务获取
@@ -122,7 +122,7 @@ func (s Department) Update(data *domain.DepartmentUpdateRequest) (err error) {
 	record["ParentID"] = data.ParentID
 	record["Name"] = data.Name
 	record["Ancestors"] = data.Ancestors
-	record["Order"] = data.Order
+	record["Sort"] = data.Sort
 	record["Status"] = data.Status
 
 	record["UpdateBy"] = "" // todo 通过登录服务获取

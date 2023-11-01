@@ -59,6 +59,7 @@ func autoMigrate(db *gorm.DB) {
 		Notice{},     // 公告表
 		Config{},     // 参数表
 		LoginLog{},   // 文章日志表
+		Role{},       // 角色表
 	)
 	if err != nil {
 		log.Fatalf("migrate error: %v", err.Error())
